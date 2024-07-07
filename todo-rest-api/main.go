@@ -7,9 +7,14 @@ import (
 	"todoRestApi/pkg/setting"
 )
 
-func main() {
+func Setup() {
+	if err := setting.Setup(); err != nil {
+		panic(err)
+	}
+}
 
-	setting.Setup()
+func main() {
+	Setup()
 
 	app := fiber.New()
 
