@@ -2,13 +2,18 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v3"
 	"todoRestApi/config"
 	"todoRestApi/pkg/setting"
+	"todoRestApi/service/database/user"
 )
 
 func Setup() {
 	if err := setting.Setup(); err != nil {
+		panic(err)
+	}
+	if err := user.Setup(); err != nil {
 		panic(err)
 	}
 }

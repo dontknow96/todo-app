@@ -11,23 +11,26 @@ type App struct {
 	PasswordCost int
 }
 
-var AppSetting = &App{}
+var AppSetting = &App{0}
 
 type Server struct {
 	Name     string
 	HttpPort int
 }
 
-var ServerSetting = &Server{}
+var ServerSetting = &Server{"127.0.0.1", 8080}
 
 type Database struct {
-	User      string
-	Password  string
-	Host      string
-	TableName string
+	DbUser               string
+	DbPassword           string
+	DbHost               string
+	DbDatabaseName       string
+	DbConnMaxLifetime    int
+	DbMaxOpenConnections int
+	DbMaxIdleConnections int
 }
 
-var DatabaseSetting = &Database{}
+var DatabaseSetting = &Database{"root", "root", "127.0.0.1:3306", "todo", 60, 10, 10}
 
 // Setup initializes the values of the settings
 func Setup() error {
@@ -63,15 +66,14 @@ func mapEnvironmentToData(structure interface{}) error {
 	for i := 0; i < description.Type().NumField(); i++ {
 		//get the value of the environment variable through the fields name
 		newValue := os.Getenv(description.Type().Field(i).Name)
+
 		fieldValue := value.Field(i)
+		if newValue == "" {
+			continue
+		}
 
 		//convert the new value according to type and set the field to its value
 		if fieldValue.Type().Kind() == reflect.Int {
-			if newValue == "" {
-				fieldValue.SetInt(0)
-				continue
-			}
-
 			converted, err := strconv.Atoi(newValue)
 			if err != nil {
 				return err
