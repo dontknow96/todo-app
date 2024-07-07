@@ -6,14 +6,14 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"todoRestApi/config"
 	"todoRestApi/pkg/setting"
-	"todoRestApi/service/database/user"
+	"todoRestApi/service/database/userdb"
 )
 
 func Setup() {
 	if err := setting.Setup(); err != nil {
 		panic(err)
 	}
-	if err := user.Setup(); err != nil {
+	if err := userdb.Setup(); err != nil {
 		panic(err)
 	}
 }

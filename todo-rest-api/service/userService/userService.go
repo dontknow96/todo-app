@@ -1,13 +1,161 @@
 package userService
 
-func loginUser() {
+import (
+	"encoding/json"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/log"
+	"net/http"
+	"todoRestApi/model/usermodel"
+	"todoRestApi/service/database/userdb"
+)
+
+type userParameter struct {
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	NewPassword string `json:"newpassword"`
+}
+
+func LoginUser(context fiber.Ctx) error {
+	context.Accepts("application/json")
+
+	//retrieve Data from Body
+	params := userParameter{}
+
+	err := json.Unmarshal(context.Body(), &params)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("Body malformed")
+	}
+
+	//retrieve User
+	user, err := userdb.GetUser(params.Username)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+	}
+
+	//check password
+	if !user.CheckPassword(params.Password) {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+
+	}
+
+	//todo proper session handling
+	_ = context.SendStatus(http.StatusOK)
+
+	return context.SendString("Success")
+}
+
+func RegisterUser(context fiber.Ctx) error {
+	context.Accepts("application/json")
+
+	params := userParameter{}
+
+	err := json.Unmarshal(context.Body(), &params)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("Body malformed")
+	}
+
+	//check if user already exists
+	if user, _ := userdb.GetUser(params.Username); user.Username != "" {
+		_ = context.SendStatus(http.StatusConflict)
+		return context.SendString("user already exists")
+	}
+
+	//insert new user with hashed Password
+	hashedPassword, _ := usermodel.HashPassword(params.Password)
+	success, err := userdb.InsertUser(params.Username, hashedPassword)
+	if success == false {
+		return err
+	}
+
+	_ = context.SendStatus(http.StatusOK)
+
+	return context.SendString("Success")
+}
+
+func DeleteUser(context fiber.Ctx) error {
+	context.Accepts("application/json")
+
+	//retrieve Data from Body
+	params := userParameter{}
+
+	err := json.Unmarshal(context.Body(), &params)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("Body malformed")
+	}
+
+	//retrieve User
+	user, err := userdb.GetUser(params.Username)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+	}
+
+	//check password
+	if !user.CheckPassword(params.Password) {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+
+	}
+
+	//delete user
+	success, err := userdb.DeleteUser(params.Username)
+	if !success {
+		_ = context.SendStatus(http.StatusInternalServerError)
+		log.Error("Delete user failed", err)
+		return context.SendString("Something went wrong")
+	}
+
+	//todo proper authorization
+	_ = context.SendStatus(http.StatusOK)
+
+	return context.SendString("Success")
 
 }
 
-func registerUser() {
+func EditUser(context fiber.Ctx) error {
+	context.Accepts("application/json")
 
-}
+	//retrieve Data from Body
+	params := userParameter{}
 
-func deleteUser() {
+	err := json.Unmarshal(context.Body(), &params)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("Body malformed")
+	}
+
+	//retrieve User
+	user, err := userdb.GetUser(params.Username)
+	if err != nil {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+	}
+
+	//check password
+	if !user.CheckPassword(params.Password) {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+
+	}
+
+	hashedNewPassword, _ := usermodel.HashPassword(params.NewPassword)
+
+	//change password of user
+	success, err := userdb.EditUser(params.Username, hashedNewPassword)
+	if !success {
+		_ = context.SendStatus(http.StatusInternalServerError)
+		log.Error("Delete user failed", err)
+		return context.SendString("Something went wrong")
+	}
+
+	//todo proper authorization
+	_ = context.SendStatus(http.StatusOK)
+
+	return context.SendString("Success")
 
 }

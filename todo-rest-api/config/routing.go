@@ -1,9 +1,13 @@
 package config
 
-import "github.com/gofiber/fiber/v3"
+import (
+	"github.com/gofiber/fiber/v3"
+	"todoRestApi/service/userService"
+)
 
 func SetUpRouting(app *fiber.App) {
-	app.Get("/", func(c fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
+	app.Post("/user/register", userService.RegisterUser)
+	app.Post("/user/login", userService.LoginUser)
+	app.Post("/user/delete", userService.DeleteUser)
+	app.Post("/user/edit", userService.EditUser)
 }
