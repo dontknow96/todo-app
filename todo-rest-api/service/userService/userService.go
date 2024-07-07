@@ -5,14 +5,21 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/log"
 	"net/http"
+	"strings"
 	"todoRestApi/model/usermodel"
-	"todoRestApi/service/database/userdb"
+	"todoRestApi/pkg/userjwt"
+	"todoRestApi/service/datasource"
 )
 
 type userParameter struct {
 	Username    string `json:"username"`
 	Password    string `json:"password"`
 	NewPassword string `json:"newpassword"`
+}
+
+type loginAnswer struct {
+	Token      string `json:"token"`
+	ValidUntil int64  `json:"validUntil"`
 }
 
 func LoginUser(context fiber.Ctx) error {
@@ -28,7 +35,7 @@ func LoginUser(context fiber.Ctx) error {
 	}
 
 	//retrieve User
-	user, err := userdb.GetUser(params.Username)
+	user, err := datasource.UserDataSourceProvider.GetUser(params.Username)
 	if err != nil {
 		_ = context.SendStatus(http.StatusBadRequest)
 		return context.SendString("User not found or wrong credentials")
@@ -41,10 +48,24 @@ func LoginUser(context fiber.Ctx) error {
 
 	}
 
-	//todo proper session handling
+	//create token
+	username, validUntil, err := userjwt.CreateTokenForUsername(user.Username)
+	if err != nil {
+		_ = context.SendStatus(http.StatusInternalServerError)
+		log.Error("Token creation after login failed", err)
+		return context.SendString("Something went wrong")
+	}
+
+	loginAnswer := loginAnswer{username, validUntil}
+
+	retBody, err := json.Marshal(loginAnswer)
+	if err != nil {
+		return err
+	}
+
 	_ = context.SendStatus(http.StatusOK)
 
-	return context.SendString("Success")
+	return context.SendString(string(retBody))
 }
 
 func RegisterUser(context fiber.Ctx) error {
@@ -59,14 +80,14 @@ func RegisterUser(context fiber.Ctx) error {
 	}
 
 	//check if user already exists
-	if user, _ := userdb.GetUser(params.Username); user.Username != "" {
+	if user, _ := datasource.UserDataSourceProvider.GetUser(params.Username); user.Username != "" {
 		_ = context.SendStatus(http.StatusConflict)
 		return context.SendString("user already exists")
 	}
 
 	//insert new user with hashed Password
 	hashedPassword, _ := usermodel.HashPassword(params.Password)
-	success, err := userdb.InsertUser(params.Username, hashedPassword)
+	success, err := datasource.UserDataSourceProvider.InsertUser(params.Username, hashedPassword)
 	if success == false {
 		return err
 	}
@@ -89,7 +110,7 @@ func DeleteUser(context fiber.Ctx) error {
 	}
 
 	//retrieve User
-	user, err := userdb.GetUser(params.Username)
+	user, err := datasource.UserDataSourceProvider.GetUser(params.Username)
 	if err != nil {
 		_ = context.SendStatus(http.StatusBadRequest)
 		return context.SendString("User not found or wrong credentials")
@@ -99,18 +120,29 @@ func DeleteUser(context fiber.Ctx) error {
 	if !user.CheckPassword(params.Password) {
 		_ = context.SendStatus(http.StatusBadRequest)
 		return context.SendString("User not found or wrong credentials")
+	}
 
+	//check authorization
+	header := context.GetReqHeaders()
+
+	authUser, err := userjwt.VerifyUser(strings.Split(header["Authorization"][0], " ")[1])
+	if err != nil {
+		return err
+	}
+
+	if authUser.Id != user.Id {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
 	}
 
 	//delete user
-	success, err := userdb.DeleteUser(params.Username)
+	success, err := datasource.UserDataSourceProvider.DeleteUser(params.Username)
 	if !success {
 		_ = context.SendStatus(http.StatusInternalServerError)
 		log.Error("Delete user failed", err)
 		return context.SendString("Something went wrong")
 	}
 
-	//todo proper authorization
 	_ = context.SendStatus(http.StatusOK)
 
 	return context.SendString("Success")
@@ -130,7 +162,7 @@ func EditUser(context fiber.Ctx) error {
 	}
 
 	//retrieve User
-	user, err := userdb.GetUser(params.Username)
+	user, err := datasource.UserDataSourceProvider.GetUser(params.Username)
 	if err != nil {
 		_ = context.SendStatus(http.StatusBadRequest)
 		return context.SendString("User not found or wrong credentials")
@@ -145,17 +177,27 @@ func EditUser(context fiber.Ctx) error {
 
 	hashedNewPassword, _ := usermodel.HashPassword(params.NewPassword)
 
+	//check authorization
+	header := context.GetReqHeaders()
+
+	authUser, err := userjwt.VerifyUser(strings.Split(header["Authorization"][0], " ")[1])
+	if err != nil {
+		return err
+	}
+
+	if authUser.Id != user.Id {
+		_ = context.SendStatus(http.StatusBadRequest)
+		return context.SendString("User not found or wrong credentials")
+	}
+
 	//change password of user
-	success, err := userdb.EditUser(params.Username, hashedNewPassword)
+	success, err := datasource.UserDataSourceProvider.EditUser(params.Username, hashedNewPassword)
 	if !success {
 		_ = context.SendStatus(http.StatusInternalServerError)
 		log.Error("Delete user failed", err)
 		return context.SendString("Something went wrong")
 	}
 
-	//todo proper authorization
 	_ = context.SendStatus(http.StatusOK)
-
 	return context.SendString("Success")
-
 }

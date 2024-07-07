@@ -2,16 +2,19 @@ package setting
 
 import (
 	"errors"
+	"github.com/gofiber/fiber/v3"
 	"os"
 	"reflect"
 	"strconv"
 )
 
 type App struct {
-	PasswordCost int
+	PasswordCost  int
+	JwtSecret     string
+	JwtExpiration int
 }
 
-var AppSetting = &App{0}
+var AppSetting = &App{0, "verySecret", 60 * 60 * 24 * 14}
 
 type Server struct {
 	Name     string
@@ -32,6 +35,9 @@ type Database struct {
 
 var DatabaseSetting = &Database{"root", "root", "127.0.0.1:3306", "todo", 60, 10, 10}
 
+var FiberAppConfig = &fiber.Config{}
+var FiberListenConfig = &fiber.ListenConfig{}
+
 // Setup initializes the values of the settings
 func Setup() error {
 	if err := mapEnvironmentToData(AppSetting); err != nil {
@@ -41,6 +47,12 @@ func Setup() error {
 		return err
 	}
 	if err := mapEnvironmentToData(DatabaseSetting); err != nil {
+		return err
+	}
+	if err := mapEnvironmentToData(FiberAppConfig); err != nil {
+		return err
+	}
+	if err := mapEnvironmentToData(FiberListenConfig); err != nil {
 		return err
 	}
 
@@ -79,6 +91,11 @@ func mapEnvironmentToData(structure interface{}) error {
 				return err
 			}
 			fieldValue.SetInt(int64(converted))
+
+			continue
+		}
+		if fieldValue.Type().Kind() == reflect.Bool {
+			fieldValue.SetBool(newValue == "true")
 
 			continue
 		}

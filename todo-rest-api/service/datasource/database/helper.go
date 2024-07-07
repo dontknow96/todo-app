@@ -35,7 +35,7 @@ func GetOneValueFromQuery[T any](rows *sql.Rows) (T, error) {
 // of the provided type
 func GetAllValuesFromQuery[T any](rows *sql.Rows) ([]T, error) {
 	elementCounter := 0
-	var retvals []T
+	var retVals []T
 
 	for rows.Next() {
 		var element T
@@ -50,13 +50,13 @@ func GetAllValuesFromQuery[T any](rows *sql.Rows) ([]T, error) {
 
 		err := rows.Scan(columns...)
 		if err != nil {
-			return retvals, err
+			return retVals, err
 		}
 
-		retvals = append(retvals, element)
+		retVals = append(retVals, element)
 
 		elementCounter++
 	}
 
-	return retvals, nil
+	return retVals, nil
 }
