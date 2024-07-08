@@ -98,43 +98,83 @@ func (todo *Todo) GetList(id int) (model.List, error) {
 }
 
 func (todo *Todo) InsertList(ownerid int, title string, description string) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	result, err := todo.insertListStatement.Exec(ownerid, title, description)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) DeleteList(id int) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
+	result, err := todo.deleteListStatement.Exec(id, ownerId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
 func (todo *Todo) EditList(id int, newTitle string, newDescription string) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+	result, err := todo.editListStatement.Exec(newTitle, newDescription, id)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) InsertItem(listId int, title string, description string, due time.Time) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) InsertItem(listId int, authorid int, title string, description string, due time.Time) (bool, error) {
+	result, err := todo.insertItemStatement.Exec(listId, authorid, title, description, due, authorid, listId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) DeleteItem(id int) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) DeleteItem(id int, userid int) (bool, error) {
+	result, err := todo.deleteItemStatement.Exec(id, userid, userid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) EditItem(id int, newTitle string, newDescription string, due time.Time, done time.Time) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) EditItem(id int, userid int, newTitle string, newDescription string, due time.Time, done time.Time) (bool, error) {
+	result, err := todo.editItemStatement.Exec(newTitle, newDescription, due, done, id, userid, userid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) InsertComment(itemId int, description string, time time.Time) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) InsertComment(itemId int, authorid int, description string, time time.Time) (bool, error) {
+	result, err := todo.insertCommentStatement.Exec(itemId, authorid, description, time, authorid, itemId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
-func (todo *Todo) DeleteComment(id int) (bool, error) {
-	//TODO implement me
-	panic("implement me")
+func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
+	result, err := todo.deleteCommentStatement.Exec(id, authorid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }
 
 func (todo *Todo) Setup() error {
@@ -166,7 +206,7 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.deleteListStatement, err = todo.dbHandle.Prepare("DELETE FROM list WHERE id = ?")
+	todo.deleteListStatement, err = todo.dbHandle.Prepare("DELETE FROM list WHERE id = ? AND ownerid = ?")
 	if err != nil {
 		return err
 	}
@@ -182,17 +222,17 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.insertItemStatement, err = todo.dbHandle.Prepare("INSERT INTO item(listid,title,description,due) VALUES (?,?,?,?)")
+	todo.insertItemStatement, err = todo.dbHandle.Prepare("INSERT INTO item(listid,authorid,title,description,due) SELECT ?,?,?,?,? FROM permission WHERE permission.userid = ? AND permission.listid = ?")
 	if err != nil {
 		return err
 	}
 
-	todo.deleteItemStatement, err = todo.dbHandle.Prepare("DELETE FROM item WHERE id = ?")
+	todo.deleteItemStatement, err = todo.dbHandle.Prepare("DELETE item FROM item LEFT JOIN permission ON item.listid = permission.listid WHERE id = ? AND (userid = ? OR authorid = ?)")
 	if err != nil {
 		return err
 	}
 
-	todo.editItemStatement, err = todo.dbHandle.Prepare("UPDATE item SET title = ?, description = ?, due = ?, done = ? WHERE id = ?")
+	todo.editItemStatement, err = todo.dbHandle.Prepare("update item join permission on permission.listid = item.listid SET description = ?, title = ?, due = ?, done = ? WHERE id = ? AND (userid = ? OR authorid = ?)")
 	if err != nil {
 		return err
 	}
@@ -203,12 +243,12 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO comment(itemid,authorid,text,time) VALUES (?,?,?,?)")
+	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO comment(itemid,authorid,text,time) SELECT ?,?,?,? FROM item join permission on permission.listid = item.listid WHERE permission.userid = ? AND item.id = ?")
 	if err != nil {
 		return err
 	}
 
-	todo.deleteCommentStatement, err = todo.dbHandle.Prepare("DELETE FROM comment WHERE id = ?")
+	todo.deleteCommentStatement, err = todo.dbHandle.Prepare("DELETE FROM comment WHERE id = ? AND authorid = ?")
 	if err != nil {
 		return err
 	}

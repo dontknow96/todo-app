@@ -33,9 +33,6 @@ func main() {
 
 	config.SetUpRouting(app)
 
-	tmp, _ := datasource.TodoDataSourceProvider.GetList(1)
-	fmt.Println(tmp)
-
 	if err := app.Listen(fmt.Sprintf("%s:%d", setting.ServerSetting.Name, setting.ServerSetting.HttpPort), *setting.FiberListenConfig); err != nil {
 		fmt.Println(err)
 	}
