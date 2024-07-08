@@ -31,156 +31,6 @@ type Todo struct {
 	deleteCommentStatement *sql.Stmt
 }
 
-type ListDbModel struct {
-	Id            int    `json:"id"`
-	OwnerId       int    `json:"owner_id"`
-	OwnerUsername string `json:"ownerusername"`
-	Title         string `json:"title"`
-	Description   string `json:"description"`
-}
-
-type ItemDbModel struct {
-	Id          int       `json:"id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Due         time.Time `json:"due"`
-	Done        time.Time `json:"done"`
-}
-
-type CommentDbModel struct {
-	Id       int       `json:"id"`
-	ItemId   int       `json:"itemid"`
-	AuthorId int       `json:"authorid"`
-	Author   string    `json:"author"`
-	Text     string    `json:"text"`
-	Time     time.Time `json:"time"`
-}
-
-func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
-	retval := model.List{}
-	retval.Items = make([]model.Item, 0)
-
-	//get list
-	result, err := todo.getListStatement.Query(id, requesterId, requesterId)
-
-	if err != nil {
-		return model.List{}, err
-	}
-
-	retval.ListData, err = GetOneValueFromQuery[model.ListData](result)
-
-	if err != nil {
-		return model.List{}, err
-	}
-
-	//retrieve items
-	var items []model.ItemData
-	result, err = todo.getItemStatement.Query(id)
-
-	if err != nil {
-		return model.List{}, err
-	}
-
-	items, err = GetAllValuesFromQuery[model.ItemData](result)
-
-	//retrieve items
-	for _, item := range items {
-		var comments []model.Comment
-
-		result, err = todo.getCommentStatement.Query(item.Id)
-
-		if err != nil {
-			return model.List{}, err
-		}
-
-		comments, err = GetAllValuesFromQuery[model.Comment](result)
-
-		retval.Items = append(retval.Items, model.Item{ItemData: item, Comments: comments})
-	}
-
-	return retval, err
-}
-
-func (todo *Todo) InsertList(ownerid int, title string, description string) (bool, error) {
-	result, err := todo.insertListStatement.Exec(ownerid, title, description)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
-	result, err := todo.deleteListStatement.Exec(id, ownerId)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription string) (bool, error) {
-	result, err := todo.editListStatement.Exec(newTitle, newDescription, id, ownerId)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) InsertItem(listId int, authorid int, title string, description string, due time.Time) (bool, error) {
-	result, err := todo.insertItemStatement.Exec(listId, authorid, title, description, due, authorid, listId)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) DeleteItem(id int, userid int) (bool, error) {
-	result, err := todo.deleteItemStatement.Exec(id, userid, userid)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) EditItem(id int, userid int, newTitle string, newDescription string, due time.Time, done time.Time) (bool, error) {
-	result, err := todo.editItemStatement.Exec(newTitle, newDescription, due, done, id, userid, userid)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) InsertComment(itemId int, authorid int, description string, time time.Time) (bool, error) {
-	result, err := todo.insertCommentStatement.Exec(itemId, authorid, description, time, authorid, itemId)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
-func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
-	result, err := todo.deleteCommentStatement.Exec(id, authorid)
-	if err != nil {
-		return false, err
-	}
-	rowsAffected, _ := result.RowsAffected()
-
-	return rowsAffected == 1, err
-}
-
 func (todo *Todo) Setup() error {
 	var err error
 
@@ -258,4 +108,132 @@ func (todo *Todo) Setup() error {
 	}
 
 	return nil
+}
+
+func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
+	retval := model.List{}
+	retval.Items = make([]model.Item, 0)
+
+	//get list
+	result, err := todo.getListStatement.Query(id, requesterId, requesterId)
+
+	if err != nil {
+		return model.List{}, err
+	}
+
+	retval.ListData, err = GetOneValueFromQuery[model.ListData](result)
+
+	if err != nil {
+		return model.List{}, err
+	}
+
+	//retrieve items
+	var items []model.ItemData
+	result, err = todo.getItemStatement.Query(id)
+
+	if err != nil {
+		return model.List{}, err
+	}
+
+	items, err = GetAllValuesFromQuery[model.ItemData](result)
+
+	//retrieve items
+	for _, item := range items {
+		var comments []model.Comment
+
+		result, err = todo.getCommentStatement.Query(item.Id)
+
+		if err != nil {
+			return model.List{}, err
+		}
+
+		comments, err = GetAllValuesFromQuery[model.Comment](result)
+
+		retval.Items = append(retval.Items, model.Item{ItemData: item, Comments: comments})
+	}
+
+	return retval, err
+}
+
+// List functions
+func (todo *Todo) InsertList(ownerid int, title string, description string) (bool, error) {
+	result, err := todo.insertListStatement.Exec(ownerid, title, description)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
+	result, err := todo.deleteListStatement.Exec(id, ownerId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription string) (bool, error) {
+	result, err := todo.editListStatement.Exec(newTitle, newDescription, id, ownerId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+// item functions
+func (todo *Todo) InsertItem(listId int, authorid int, title string, description string, due time.Time) (bool, error) {
+	result, err := todo.insertItemStatement.Exec(listId, authorid, title, description, due, authorid, listId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+func (todo *Todo) DeleteItem(id int, userid int) (bool, error) {
+	result, err := todo.deleteItemStatement.Exec(id, userid, userid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+func (todo *Todo) EditItem(id int, userid int, newTitle string, newDescription string, due time.Time, done time.Time) (bool, error) {
+	result, err := todo.editItemStatement.Exec(newTitle, newDescription, due, done, id, userid, userid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+// comment funcitons
+func (todo *Todo) InsertComment(itemId int, authorid int, description string, time time.Time) (bool, error) {
+	result, err := todo.insertCommentStatement.Exec(itemId, authorid, description, time, authorid, itemId)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
+	result, err := todo.deleteCommentStatement.Exec(id, authorid)
+	if err != nil {
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
 }

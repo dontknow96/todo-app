@@ -55,16 +55,8 @@ func LoginUser(context fiber.Ctx) error {
 		return context.SendString("Something went wrong")
 	}
 
-	loginAnswer := loginAnswer{username, validUntil}
-
-	retBody, err := json.Marshal(loginAnswer)
-	if err != nil {
-		return err
-	}
-
 	_ = context.SendStatus(http.StatusOK)
-
-	return context.SendString(string(retBody))
+	return context.JSON(loginAnswer{username, validUntil})
 }
 
 func RegisterUser(context fiber.Ctx) error {
@@ -177,7 +169,8 @@ func EditUser(context fiber.Ctx) error {
 	//check authorization
 	authUser, err := userjwt.VerifiedUser(context)
 	if err != nil {
-		return err
+		_ = context.SendStatus(http.StatusUnauthorized)
+		return context.SendString(err.Error())
 	}
 
 	if authUser.Id != user.Id {
