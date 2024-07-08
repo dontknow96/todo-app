@@ -1,15 +1,14 @@
-package userdb
+package database
 
 import (
 	"database/sql"
 	"fmt"
 	"time"
-	"todoRestApi/model/usermodel"
+	"todoRestApi/model"
 	"todoRestApi/pkg/setting"
-	"todoRestApi/service/datasource/database"
 )
 
-var Userdb = &User{}
+var UserDb = &User{}
 
 type User struct {
 	dbHandle *sql.DB
@@ -59,21 +58,18 @@ func (user *User) Setup() error {
 		return err
 	}
 
-	fmt.Println(&user)
-	fmt.Println(user)
-
 	return nil
 }
 
-func (user *User) GetUser(username string) (usermodel.User, error) {
-	retval := usermodel.User{}
+func (user *User) GetUser(username string) (model.User, error) {
+	retval := model.User{}
 	result, err := user.getUserStatement.Query(username)
 
 	if err != nil {
 		return retval, err
 	}
 
-	retval, err = database.GetOneValueFromQuery[usermodel.User](result)
+	retval, err = GetOneValueFromQuery[model.User](result)
 
 	return retval, err
 }

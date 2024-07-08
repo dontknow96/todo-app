@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"time"
-	"todoRestApi/model/usermodel"
+	"todoRestApi/model"
 	"todoRestApi/pkg/setting"
 	"todoRestApi/service/datasource"
 )
@@ -26,8 +26,8 @@ func CreateTokenForUsername(username string) (string, int64, error) {
 	return tokenString, exp, nil
 }
 
-func VerifyUser(tokenString string) (usermodel.User, error) {
-	retVal := usermodel.User{}
+func VerifyUser(tokenString string) (model.User, error) {
+	retVal := model.User{}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return []byte(setting.AppSetting.JwtSecret), nil

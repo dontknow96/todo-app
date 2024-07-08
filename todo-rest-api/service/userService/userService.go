@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v3/log"
 	"net/http"
 	"strings"
-	"todoRestApi/model/usermodel"
+	"todoRestApi/model"
 	"todoRestApi/pkg/userjwt"
 	"todoRestApi/service/datasource"
 )
@@ -86,7 +86,7 @@ func RegisterUser(context fiber.Ctx) error {
 	}
 
 	//insert new user with hashed Password
-	hashedPassword, _ := usermodel.HashPassword(params.Password)
+	hashedPassword, _ := model.HashPassword(params.Password)
 	success, err := datasource.UserDataSourceProvider.InsertUser(params.Username, hashedPassword)
 	if success == false {
 		return err
@@ -175,7 +175,7 @@ func EditUser(context fiber.Ctx) error {
 
 	}
 
-	hashedNewPassword, _ := usermodel.HashPassword(params.NewPassword)
+	hashedNewPassword, _ := model.HashPassword(params.NewPassword)
 
 	//check authorization
 	header := context.GetReqHeaders()
