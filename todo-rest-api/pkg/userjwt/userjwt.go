@@ -2,7 +2,9 @@ package userjwt
 
 import (
 	"fmt"
+	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
+	"strings"
 	"time"
 	"todoRestApi/model"
 	"todoRestApi/pkg/setting"
@@ -26,10 +28,12 @@ func CreateTokenForUsername(username string) (string, int64, error) {
 	return tokenString, exp, nil
 }
 
-func VerifyUser(tokenString string) (model.User, error) {
+func VerifiedUser(context fiber.Ctx) (model.User, error) {
+	header := context.GetReqHeaders()
+
 	retVal := model.User{}
 
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(strings.Split(header["Authorization"][0], " ")[1], func(token *jwt.Token) (interface{}, error) {
 		return []byte(setting.AppSetting.JwtSecret), nil
 	})
 

@@ -5,7 +5,6 @@ import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/log"
 	"net/http"
-	"strings"
 	"todoRestApi/model"
 	"todoRestApi/pkg/userjwt"
 	"todoRestApi/service/datasource"
@@ -123,9 +122,7 @@ func DeleteUser(context fiber.Ctx) error {
 	}
 
 	//check authorization
-	header := context.GetReqHeaders()
-
-	authUser, err := userjwt.VerifyUser(strings.Split(header["Authorization"][0], " ")[1])
+	authUser, err := userjwt.VerifiedUser(context)
 	if err != nil {
 		return err
 	}
@@ -178,9 +175,7 @@ func EditUser(context fiber.Ctx) error {
 	hashedNewPassword, _ := model.HashPassword(params.NewPassword)
 
 	//check authorization
-	header := context.GetReqHeaders()
-
-	authUser, err := userjwt.VerifyUser(strings.Split(header["Authorization"][0], " ")[1])
+	authUser, err := userjwt.VerifiedUser(context)
 	if err != nil {
 		return err
 	}
