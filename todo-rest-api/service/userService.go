@@ -1,4 +1,4 @@
-package userService
+package service
 
 import (
 	"encoding/json"

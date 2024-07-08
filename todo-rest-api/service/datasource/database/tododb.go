@@ -56,18 +56,22 @@ type CommentDbModel struct {
 	Time     time.Time `json:"time"`
 }
 
-func (todo *Todo) GetList(id int) (model.List, error) {
+func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 	retval := model.List{}
 	retval.Items = make([]model.Item, 0)
 
 	//get list
-	result, err := todo.getListStatement.Query(id)
+	result, err := todo.getListStatement.Query(id, requesterId, requesterId)
 
 	if err != nil {
 		return model.List{}, err
 	}
 
 	retval.ListData, err = GetOneValueFromQuery[model.ListData](result)
+
+	if err != nil {
+		return model.List{}, err
+	}
 
 	//retrieve items
 	var items []model.ItemData
@@ -117,8 +121,8 @@ func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
 	return rowsAffected == 1, err
 }
 
-func (todo *Todo) EditList(id int, newTitle string, newDescription string) (bool, error) {
-	result, err := todo.editListStatement.Exec(newTitle, newDescription, id)
+func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription string) (bool, error) {
+	result, err := todo.editListStatement.Exec(newTitle, newDescription, id, ownerId)
 	if err != nil {
 		return false, err
 	}
@@ -196,7 +200,7 @@ func (todo *Todo) Setup() error {
 	}
 
 	//create prepared statements for list
-	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users WHERE list.id = ?")
+	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users JOIN permission WHERE list.id = ? AND (list.ownerid = ? OR permission.userid = ? )")
 	if err != nil {
 		return err
 	}

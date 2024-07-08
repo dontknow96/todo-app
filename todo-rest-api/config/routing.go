@@ -2,22 +2,22 @@ package config
 
 import (
 	"github.com/gofiber/fiber/v3"
-	"todoRestApi/service/userService"
+	"todoRestApi/service"
 )
 
 func SetUpRouting(app *fiber.App) {
 
 	//user
-	app.Post("/user/register", userService.RegisterUser)
-	app.Post("/user/login", userService.LoginUser)
-	app.Delete("/user/delete", userService.DeleteUser)
-	app.Post("/user/edit", userService.EditUser)
+	app.Post("/user/register", service.RegisterUser)
+	app.Post("/user/login", service.LoginUser)
+	app.Delete("/user/delete", service.DeleteUser)
+	app.Post("/user/edit", service.EditUser)
 
 	//list
-	app.Post("/list/new", userService.RegisterUser)
-	app.Delete("/list/:id", userService.LoginUser)
-	app.Get("/list/:id", userService.EditUser)
-	app.Post("/list/:id", userService.EditUser)
+	app.Post("/list/new", service.RegisterUser)
+	app.Delete("/list/:id", service.LoginUser)
+	app.Get("/list/:id", service.EditUser)
+	app.Post("/list/:id", service.EditUser)
 
 	//item
 
