@@ -4,6 +4,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 	"todoRestApi/config"
 	"todoRestApi/pkg/setting"
 	"todoRestApi/service/datasource"
@@ -30,6 +31,10 @@ func main() {
 	Setup()
 
 	app := fiber.New(*setting.FiberAppConfig)
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+	}))
 
 	config.SetUpRouting(app)
 
