@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 	"todoRestApi/model"
@@ -81,12 +82,12 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.deleteItemStatement, err = todo.dbHandle.Prepare("DELETE item FROM item LEFT JOIN permission ON item.listid = permission.listid WHERE id = ? AND (userid = ? OR authorid = ?)")
+	todo.deleteItemStatement, err = todo.dbHandle.Prepare("DELETE item FROM item JOIN list ON item.listid = list.id LEFT JOIN permission ON item.listid = permission.listid  WHERE item.id = ? AND (permission.userid = ? OR list.ownerid = ?)")
 	if err != nil {
 		return err
 	}
 
-	todo.editItemStatement, err = todo.dbHandle.Prepare("update item join permission on permission.listid = item.listid SET description = ?, title = ?, due = ?, done = ? WHERE id = ? AND (userid = ? OR authorid = ?)")
+	todo.editItemStatement, err = todo.dbHandle.Prepare("update item JOIN list ON item.listid = list.id LEFT JOIN permission ON item.listid = permission.listid SET item.description = ?, item.title = ?, due = ?, done = ? WHERE item.id = ? AND (permission.userid = ? OR list.ownerid = ?)")
 	if err != nil {
 		return err
 	}
@@ -97,7 +98,7 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO comment(itemid,authorid,text,time) SELECT ?,?,?,? FROM item join permission on permission.listid = item.listid WHERE permission.userid = ? AND item.id = ?")
+	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO comment(itemid,authorid,text,time) SELECT ?,?,?,? FROM list Join item ON list.id = item.listid join permission on permission.listid = item.listid WHERE (permission.userid = ? OR list.ownerid = ?) AND item.id = ?")
 	if err != nil {
 		return err
 	}
@@ -156,14 +157,21 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 }
 
 // List functions
-func (todo *Todo) InsertList(ownerid int, title string, description string) (bool, error) {
+func (todo *Todo) InsertList(ownerid int, title string, description string) (int64, error) {
 	result, err := todo.insertListStatement.Exec(ownerid, title, description)
 	if err != nil {
-		return false, err
+		return -1, err
 	}
-	rowsAffected, _ := result.RowsAffected()
 
-	return rowsAffected == 1, err
+	id, err := result.LastInsertId()
+	if err != nil {
+		return id, err
+	}
+	if id == 0 {
+		return id, errors.New("failed to create")
+	}
+
+	return id, err
 }
 
 func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
@@ -187,14 +195,21 @@ func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription 
 }
 
 // item functions
-func (todo *Todo) InsertItem(listId int, authorid int, title string, description string, due time.Time) (bool, error) {
+func (todo *Todo) InsertItem(listId int, authorid int, title string, description string, due time.Time) (int64, error) {
 	result, err := todo.insertItemStatement.Exec(listId, authorid, title, description, due, authorid, listId)
 	if err != nil {
-		return false, err
+		return -1, err
 	}
-	rowsAffected, _ := result.RowsAffected()
 
-	return rowsAffected == 1, err
+	id, err := result.LastInsertId()
+	if err != nil {
+		return id, err
+	}
+	if id == 0 {
+		return id, errors.New("failed to create")
+	}
+
+	return id, err
 }
 
 func (todo *Todo) DeleteItem(id int, userid int) (bool, error) {
@@ -218,14 +233,21 @@ func (todo *Todo) EditItem(id int, userid int, newTitle string, newDescription s
 }
 
 // comment funcitons
-func (todo *Todo) InsertComment(itemId int, authorid int, description string, time time.Time) (bool, error) {
-	result, err := todo.insertCommentStatement.Exec(itemId, authorid, description, time, authorid, itemId)
+func (todo *Todo) InsertComment(itemId int, authorid int, description string, time time.Time) (int64, error) {
+	result, err := todo.insertCommentStatement.Exec(itemId, authorid, description, time, authorid, authorid, itemId)
 	if err != nil {
-		return false, err
+		return -1, err
 	}
-	rowsAffected, _ := result.RowsAffected()
 
-	return rowsAffected == 1, err
+	id, err := result.LastInsertId()
+	if err != nil {
+		return id, err
+	}
+	if id == 0 {
+		return id, errors.New("failed to create")
+	}
+
+	return id, err
 }
 
 func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
