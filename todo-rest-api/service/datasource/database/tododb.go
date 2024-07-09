@@ -16,6 +16,7 @@ type Todo struct {
 
 	//list
 	getListStatement    *sql.Stmt
+	getAllListStatement *sql.Stmt
 	insertListStatement *sql.Stmt
 	deleteListStatement *sql.Stmt
 	editListStatement   *sql.Stmt
@@ -51,7 +52,12 @@ func (todo *Todo) Setup() error {
 	}
 
 	//create prepared statements for list
-	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users JOIN permission WHERE list.id = ? AND (list.ownerid = ? OR permission.userid = ? )")
+	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE list.id = ? AND (list.ownerid = ? OR permission.userid = ? )")
+	if err != nil {
+		return err
+	}
+
+	todo.getAllListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE (list.ownerid = ? OR permission.userid = ? )")
 	if err != nil {
 		return err
 	}
@@ -154,6 +160,23 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 	}
 
 	return retval, err
+}
+
+func (todo *Todo) GetAllLists(requesterId int) ([]model.ListData, error) {
+
+	result, err := todo.getAllListStatement.Query(requesterId, requesterId)
+
+	if err != nil {
+		return make([]model.ListData, 0), err
+	}
+
+	retval, err := GetAllValuesFromQuery[model.ListData](result)
+
+	if err != nil {
+		return make([]model.ListData, 0), err
+	}
+
+	return retval, nil
 }
 
 // List functions

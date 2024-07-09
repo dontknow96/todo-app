@@ -48,6 +48,23 @@ func GetList(context fiber.Ctx) error {
 	_ = context.SendStatus(http.StatusOK)
 	return context.JSON(list)
 }
+func GetAllList(context fiber.Ctx) error {
+	//check authorization
+	authUser, err := userjwt.VerifiedUser(context)
+	if err != nil {
+		_ = context.SendStatus(http.StatusUnauthorized)
+		return context.SendString(err.Error())
+	}
+
+	//retrieve data
+	list, err := datasource.TodoDataSourceProvider.GetAllLists(authUser.Id)
+	if err != nil {
+		return context.SendStatus(http.StatusNotFound)
+	}
+
+	_ = context.SendStatus(http.StatusOK)
+	return context.JSON(list)
+}
 
 func InsertList(context fiber.Ctx) error {
 	context.Accepts("application/json")

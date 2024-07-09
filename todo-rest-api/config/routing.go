@@ -16,6 +16,7 @@ func SetUpRouting(app *fiber.App) {
 	//list
 	app.Post("/list/new", service.InsertList)
 	app.Delete("/list/:id", service.DeleteList)
+	app.Get("/list/all", service.GetAllList)
 	app.Get("/list/:id", service.GetList)
 	app.Post("/list/:id", service.EditList)
 
