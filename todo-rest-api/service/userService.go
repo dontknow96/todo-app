@@ -41,19 +41,19 @@ func LoginUser(context fiber.Ctx) error {
 	//retrieve User
 	user, err := datasource.UserDataSourceProvider.GetUser(params.Username)
 	if err != nil {
-		_ = context.SendStatus(http.StatusBadRequest)
+		_ = context.SendStatus(http.StatusUnauthorized)
 		return context.SendString("User not found or wrong credentials")
 	}
 
 	//check password
 	if !user.CheckPassword(params.Password) {
-		_ = context.SendStatus(http.StatusBadRequest)
+		_ = context.SendStatus(http.StatusUnauthorized)
 		return context.SendString("User not found or wrong credentials")
 
 	}
 
 	//create token
-	username, validUntil, err := userjwt.CreateTokenForUsername(user.Username)
+	token, validUntil, err := userjwt.CreateTokenForUsername(user.Username)
 	if err != nil {
 		_ = context.SendStatus(http.StatusInternalServerError)
 		log.Error("Token creation after login failed", err)
@@ -61,7 +61,7 @@ func LoginUser(context fiber.Ctx) error {
 	}
 
 	_ = context.SendStatus(http.StatusOK)
-	return context.JSON(loginAnswer{username, validUntil})
+	return context.JSON(loginAnswer{token, validUntil})
 }
 
 func RegisterUser(context fiber.Ctx) error {
@@ -88,9 +88,16 @@ func RegisterUser(context fiber.Ctx) error {
 		return err
 	}
 
-	_ = context.SendStatus(http.StatusOK)
+	//create token
+	token, validUntil, err := userjwt.CreateTokenForUsername(params.Username)
+	if err != nil {
+		_ = context.SendStatus(http.StatusInternalServerError)
+		log.Error("Token creation after login failed", err)
+		return context.SendString("Something went wrong")
+	}
 
-	return context.SendString("Success")
+	_ = context.SendStatus(http.StatusOK)
+	return context.JSON(loginAnswer{token, validUntil})
 }
 
 func DeleteUser(context fiber.Ctx) error {
