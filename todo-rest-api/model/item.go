@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Item struct {
-	ItemData ItemData  `json:"item_data"`
+	ItemData ItemData  `json:"itemdata"`
 	Comments []Comment `json:"comments"`
 }
 
