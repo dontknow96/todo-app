@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:user/bloc/user_bloc.dart';
-import 'package:user/bloc/user_bloc_state.dart';
+import 'package:user/bloc/user/user_bloc.dart';
+import 'package:user/bloc/user/user_bloc_state.dart';
 import 'package:user/repository/user_repository.dart';
 
 import '../navigation/routes.dart';

@@ -13,7 +13,7 @@ class TodoRouterConfigDesktop {
   static List<RouteBase> routes() => [
     GoRoute(
         path: dashboard,
-        builder: (context, __) => Text("dash")),
+        builder: (context, __) => const Text("dash")),
     GoRoute(
         path: home,
         builder: (context, __) => LoginView(

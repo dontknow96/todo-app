@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:user/bloc/login_bloc_event.dart';
-import 'package:user/bloc/login_bloc_state.dart';
+import 'package:user/bloc/login/login_bloc_event.dart';
+import 'package:user/bloc/login/login_bloc_state.dart';
 import 'package:user/user.dart';
 
 class LoginView extends StatelessWidget {
