@@ -33,6 +33,11 @@ func LoginUser(context fiber.Ctx) error {
 		return context.SendString("Body malformed")
 	}
 
+	//check for bad request
+	if params.Username == "" || params.Password == "" {
+		return context.SendStatus(http.StatusBadRequest)
+	}
+
 	//retrieve User
 	user, err := datasource.UserDataSourceProvider.GetUser(params.Username)
 	if err != nil {
