@@ -1,6 +1,7 @@
 package userjwt
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gofiber/fiber/v3"
 	"github.com/golang-jwt/jwt/v5"
@@ -33,7 +34,16 @@ func VerifiedUser(context fiber.Ctx) (model.User, error) {
 
 	retVal := model.User{}
 
-	token, err := jwt.Parse(strings.Split(header["Authorization"][0], " ")[1], func(token *jwt.Token) (interface{}, error) {
+	if header["Authorization"] == nil {
+		return retVal, errors.New("missing Authorization header")
+	}
+
+	split := strings.Split(header["Authorization"][0], " ")
+	if len(split) < 2 {
+		return retVal, errors.New("malformed Authorization header")
+	}
+
+	token, err := jwt.Parse(split[1], func(token *jwt.Token) (interface{}, error) {
 		return []byte(setting.AppSetting.JwtSecret), nil
 	})
 
