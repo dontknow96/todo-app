@@ -1,5 +1,5 @@
-name: controleapp
-description: "Controle App for airsoft fun project devices."
+name: user
+description: "A new Flutter package project."
 
 publish_to: 'none'
 
