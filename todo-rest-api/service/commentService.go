@@ -27,6 +27,10 @@ func InsertComment(context fiber.Ctx) error {
 		return context.SendString("Body malformed")
 	}
 
+	if params.Text == "" {
+		return context.SendStatus(http.StatusBadRequest)
+	}
+
 	//check authorization
 	authUser, err := userjwt.VerifiedUser(context)
 	if err != nil {

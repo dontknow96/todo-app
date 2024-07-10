@@ -11,8 +11,8 @@ import (
 )
 
 type itemParameter struct {
+	ItemId      int       `json:"id"`
 	ListId      int       `json:"listid"`
-	ItemId      int       `json:"itemid"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Due         time.Time `json:"due"`
