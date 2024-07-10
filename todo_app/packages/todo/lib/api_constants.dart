@@ -4,6 +4,7 @@ class ApiConstants{
 
   //list endpoints
   static const allLists = 'list/all';
+  static const deleteList = 'list/';
   static const getList = 'list/';
 
   //item endpoints

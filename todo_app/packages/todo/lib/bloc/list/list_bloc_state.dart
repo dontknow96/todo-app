@@ -6,7 +6,7 @@ import '../../model/list_model.dart';
 
 part 'list_bloc_state.freezed.dart';
 
-enum ListState { none, loading}
+enum ListState { none, loading, deleted}
 
 @freezed
 class ListBlocState with _$ListBlocState {

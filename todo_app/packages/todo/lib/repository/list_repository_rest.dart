@@ -46,9 +46,25 @@ class ListRepositoryRest implements ListRepository {
   }
 
   @override
-  Future<ApiResponse> deleteList(int id) {
-    // TODO: implement deleteList
-    throw UnimplementedError();
+  Future<ApiResponse> deleteList(int id) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.delete(
+      Uri.http(endpoint, "${ApiConstants.deleteList}$id"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
   }
 
   @override

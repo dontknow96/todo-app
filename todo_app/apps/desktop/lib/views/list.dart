@@ -35,26 +35,33 @@ class TodoListView extends StatelessWidget {
             items: {},
           ),
           GetIt.I.get<ListRepository>()),
-      child: Scaffold(
-        appBar: AppBar(
-            title: Row(
-          children: [
-            const Text("List View"),
-            Expanded(child: Container()),
-            GestureDetector(
-              onTap: onClickBack,
-              child: const Icon(
-                Icons.arrow_back,
-                size: 24.0,
-              ),
-            ),
-          ],
-        )),
-        body: BlocBuilder<ListBloc, ListBlocState>(
-          builder: (BuildContext context, ListBlocState state) {
-            final listBloc = context.read<ListBloc>();
+      child: BlocBuilder<ListBloc, ListBlocState>(
+        builder: (BuildContext context, ListBlocState state) {
+          final listBloc = context.read<ListBloc>();
 
-            return RefreshIndicator(
+          if (state.state == ListState.deleted) {
+            Future.delayed(Duration.zero, onClickBack);
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+                title: Row(
+              children: [
+                const Text("List View"),
+                Expanded(child: Container()),
+                if (state.state == ListState.loading)
+                  const CircularProgressIndicator(),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: onClickBack,
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 24.0,
+                  ),
+                ),
+              ],
+            )),
+            body: RefreshIndicator(
               onRefresh: () async =>
                   listBloc.add(const ListBlocEvent.refresh()),
               child: ListView(
@@ -72,9 +79,9 @@ class TodoListView extends StatelessWidget {
                   CreateItemWidget(listBloc: listBloc),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

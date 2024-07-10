@@ -103,12 +103,6 @@ func DeleteList(context fiber.Ctx) error {
 	}
 	params.ListId = id
 
-	err = json.Unmarshal(context.Body(), &params)
-	if err != nil {
-		_ = context.SendStatus(http.StatusBadRequest)
-		return context.SendString("Body malformed")
-	}
-
 	//check authorization
 	authUser, err := userjwt.VerifiedUser(context)
 	if err != nil {
