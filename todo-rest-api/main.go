@@ -11,7 +11,7 @@ import (
 	"todoRestApi/service/datasource/database"
 )
 
-func Setup() {
+func setup() {
 	if err := setting.Setup(); err != nil {
 		panic(err)
 	}
@@ -28,7 +28,7 @@ func Setup() {
 }
 
 func main() {
-	Setup()
+	setup()
 
 	app := fiber.New(*setting.FiberAppConfig)
 

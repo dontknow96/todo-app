@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"github.com/gofiber/fiber/v3/log"
 	"time"
 	"todoRestApi/model"
 	"todoRestApi/pkg/setting"
@@ -64,12 +65,17 @@ func (user *User) Setup() error {
 func (user *User) GetUser(username string) (model.User, error) {
 	retval := model.User{}
 	result, err := user.getUserStatement.Query(username)
-
 	if err != nil {
 		return retval, err
 	}
 
 	retval, err = GetOneValueFromQuery[model.User](result)
+
+	err = result.Close()
+	if err != nil {
+		log.Error(err)
+		return model.User{}, err
+	}
 
 	return retval, err
 }
@@ -86,6 +92,7 @@ func (user *User) InsertUser(username string, password string) (bool, error) {
 
 func (user *User) DeleteUser(username string) (bool, error) {
 	result, err := user.deleteUserStatement.Exec(username)
+
 	if err != nil {
 		return false, err
 	}

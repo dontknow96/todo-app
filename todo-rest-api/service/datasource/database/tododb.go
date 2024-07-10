@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/gofiber/fiber/v3/log"
 	"time"
 	"todoRestApi/model"
 	"todoRestApi/pkg/setting"
@@ -99,7 +100,7 @@ func (todo *Todo) Setup() error {
 	}
 
 	//create prepared statements for comment
-	todo.getCommentStatement, err = todo.dbHandle.Prepare("SELECT comment.id, comment.itemid, comment.authorid, users.username, comment.text, comment.time FROM comment JOIN users WHERE comment.itemid = ?")
+	todo.getCommentStatement, err = todo.dbHandle.Prepare("SELECT comment.id, comment.itemid, comment.authorid, users.username, comment.text, comment.time FROM comment JOIN users ON comment.authorid = users.id WHERE comment.itemid = ?")
 	if err != nil {
 		return err
 	}
@@ -129,8 +130,13 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 	}
 
 	retval.ListData, err = GetOneValueFromQuery[model.ListData](result)
-
 	if err != nil {
+		return model.List{}, err
+	}
+
+	err = result.Close()
+	if err != nil {
+		log.Error(err)
 		return model.List{}, err
 	}
 
@@ -143,6 +149,11 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 	}
 
 	items, err = GetAllValuesFromQuery[model.ItemData](result)
+	err = result.Close()
+	if err != nil {
+		log.Error(err)
+		return model.List{}, err
+	}
 
 	//retrieve items
 	for _, item := range items {
@@ -155,6 +166,11 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 		}
 
 		comments, err = GetAllValuesFromQuery[model.Comment](result)
+		err = result.Close()
+		if err != nil {
+			log.Error(err)
+			return model.List{}, err
+		}
 
 		retval.Items = append(retval.Items, model.Item{ItemData: item, Comments: comments})
 	}
@@ -167,12 +183,19 @@ func (todo *Todo) GetAllLists(requesterId int) ([]model.ListData, error) {
 	result, err := todo.getAllListStatement.Query(requesterId, requesterId)
 
 	if err != nil {
+		log.Error(err)
 		return make([]model.ListData, 0), err
 	}
 
 	retval, err := GetAllValuesFromQuery[model.ListData](result)
-
 	if err != nil {
+		log.Error(err)
+		return make([]model.ListData, 0), err
+	}
+
+	err = result.Close()
+	if err != nil {
+		log.Error(err)
 		return make([]model.ListData, 0), err
 	}
 
