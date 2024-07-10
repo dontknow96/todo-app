@@ -44,8 +44,8 @@ class TodoListView extends StatelessWidget {
             }
             final listBloc = context.read<ListBloc>();
 
-            final list = state.list!;
-            final items = state.items!;
+            final list = state.list;
+            final items = state.items;
 
             return ListView(
               children: [

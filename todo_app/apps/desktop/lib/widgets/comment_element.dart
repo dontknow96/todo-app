@@ -23,7 +23,7 @@ class CommentElement extends StatelessWidget {
       ),
       child: BlocBuilder<CommentBloc, CommentBlocState>(
         builder: (BuildContext context, state) {
-          final itemBloc = context.read<CommentBloc>();
+          // final itemBloc = context.read<CommentBloc>();
 
           return Column(
             children: [
@@ -33,7 +33,7 @@ class CommentElement extends StatelessWidget {
                   Expanded(child: Container()),
                   Text(state.comment.time.toString()),
                   Expanded(child: Container()),
-                  Text("delete"),
+                  const Text("delete"),
                 ],
               ),
               Text(state.comment.text),

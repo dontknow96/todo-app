@@ -6,7 +6,6 @@ import 'package:todo/bloc/item/item_bloc.dart';
 import 'package:todo/bloc/item/item_bloc_state.dart';
 import 'package:todo/model/comment_model.dart';
 import 'package:todo/model/item_model.dart';
-import 'package:todo/model/list_model.dart';
 import 'package:todo/repository/list_repository.dart';
 
 class ItemElement extends StatelessWidget {
@@ -28,13 +27,13 @@ class ItemElement extends StatelessWidget {
       ),
       child: BlocBuilder<ItemBloc, ItemBlocState>(
         builder: (BuildContext context, state) {
-          final itemBloc = context.read<ItemBloc>();
+          // final itemBloc = context.read<ItemBloc>();
 
           return ExpansionTile(
             controlAffinity: ListTileControlAffinity.leading,
             title: Row(
               children: [
-                Checkbox(value: false, onChanged: null),
+                const Checkbox(value: false, onChanged: null),
                 Expanded(child: Container()),
                 Text(state.item.title),
                 Expanded(child: Container()),

@@ -24,7 +24,7 @@ class DashboardView extends StatelessWidget {
           GetIt.I.get<ListRepository>()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("dashboard"),
+          title: const Text("dashboard"),
         ),
         body: BlocBuilder<ListOverviewBloc, ListOverviewBlocState>(
           builder: (BuildContext context, ListOverviewBlocState state) {
