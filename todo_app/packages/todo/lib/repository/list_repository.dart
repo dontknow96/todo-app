@@ -18,6 +18,8 @@ abstract class ListRepository {
   );
 
   //item endpoints
+  Future<ApiResponse> insertItem(int listId, String title, String description, DateTime? due);
+  Future<ApiResponse> deleteItem(int itemId);
 
   //comment endpoints
   Future<ApiResponse> insertComment(int itemId, String text);

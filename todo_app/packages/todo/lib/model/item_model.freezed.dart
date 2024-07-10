@@ -21,6 +21,7 @@ ItemModel _$ItemModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ItemModel {
   int get id => throw _privateConstructorUsedError;
+  int? get listid => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   DateTime get due => throw _privateConstructorUsedError;
@@ -38,7 +39,12 @@ abstract class $ItemModelCopyWith<$Res> {
       _$ItemModelCopyWithImpl<$Res, ItemModel>;
   @useResult
   $Res call(
-      {int id, String title, String description, DateTime due, DateTime done});
+      {int id,
+      int? listid,
+      String title,
+      String description,
+      DateTime due,
+      DateTime done});
 }
 
 /// @nodoc
@@ -55,6 +61,7 @@ class _$ItemModelCopyWithImpl<$Res, $Val extends ItemModel>
   @override
   $Res call({
     Object? id = null,
+    Object? listid = freezed,
     Object? title = null,
     Object? description = null,
     Object? due = null,
@@ -65,6 +72,10 @@ class _$ItemModelCopyWithImpl<$Res, $Val extends ItemModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      listid: freezed == listid
+          ? _value.listid
+          : listid // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -94,7 +105,12 @@ abstract class _$$ItemModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id, String title, String description, DateTime due, DateTime done});
+      {int id,
+      int? listid,
+      String title,
+      String description,
+      DateTime due,
+      DateTime done});
 }
 
 /// @nodoc
@@ -109,6 +125,7 @@ class __$$ItemModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? listid = freezed,
     Object? title = null,
     Object? description = null,
     Object? due = null,
@@ -119,6 +136,10 @@ class __$$ItemModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      listid: freezed == listid
+          ? _value.listid
+          : listid // ignore: cast_nullable_to_non_nullable
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -144,6 +165,7 @@ class __$$ItemModelImplCopyWithImpl<$Res>
 class _$ItemModelImpl implements _ItemModel {
   const _$ItemModelImpl(
       {required this.id,
+      required this.listid,
       required this.title,
       required this.description,
       required this.due,
@@ -155,6 +177,8 @@ class _$ItemModelImpl implements _ItemModel {
   @override
   final int id;
   @override
+  final int? listid;
+  @override
   final String title;
   @override
   final String description;
@@ -165,7 +189,7 @@ class _$ItemModelImpl implements _ItemModel {
 
   @override
   String toString() {
-    return 'ItemModel(id: $id, title: $title, description: $description, due: $due, done: $done)';
+    return 'ItemModel(id: $id, listid: $listid, title: $title, description: $description, due: $due, done: $done)';
   }
 
   @override
@@ -174,6 +198,7 @@ class _$ItemModelImpl implements _ItemModel {
         (other.runtimeType == runtimeType &&
             other is _$ItemModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.listid, listid) || other.listid == listid) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -184,7 +209,7 @@ class _$ItemModelImpl implements _ItemModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, description, due, done);
+      Object.hash(runtimeType, id, listid, title, description, due, done);
 
   @JsonKey(ignore: true)
   @override
@@ -203,6 +228,7 @@ class _$ItemModelImpl implements _ItemModel {
 abstract class _ItemModel implements ItemModel {
   const factory _ItemModel(
       {required final int id,
+      required final int? listid,
       required final String title,
       required final String description,
       required final DateTime due,
@@ -213,6 +239,8 @@ abstract class _ItemModel implements ItemModel {
 
   @override
   int get id;
+  @override
+  int? get listid;
   @override
   String get title;
   @override

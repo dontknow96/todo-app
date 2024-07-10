@@ -9,6 +9,7 @@ part of 'item_model.dart';
 _$ItemModelImpl _$$ItemModelImplFromJson(Map<String, dynamic> json) =>
     _$ItemModelImpl(
       id: (json['id'] as num).toInt(),
+      listid: (json['listid'] as num?)?.toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
       due: DateTime.parse(json['due'] as String),
@@ -18,6 +19,7 @@ _$ItemModelImpl _$$ItemModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ItemModelImplToJson(_$ItemModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'listid': instance.listid,
       'title': instance.title,
       'description': instance.description,
       'due': instance.due.toIso8601String(),

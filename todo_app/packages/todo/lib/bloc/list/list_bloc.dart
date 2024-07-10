@@ -33,16 +33,35 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
     }
   }
 
+  Future<void> _editList(EditList event, Emitter<ListBlocState> emit) async {}
+
   Future<void> _deleteList(
       DeleteList event, Emitter<ListBlocState> emit) async {}
 
-  Future<void> _createItem(
-      CreateItem event, Emitter<ListBlocState> emit) async {}
 
-  Future<void> _editList(EditList event, Emitter<ListBlocState> emit) async {}
+  Future<void> _createItem(
+      CreateItem event, Emitter<ListBlocState> emit) async {
+    final response =
+    await listRepository.insertItem(event.listId,event.title, event.description, event.due);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListState.none));
+      add(const ListBlocEvent.refresh());
+    }
+
+  }
 
   Future<void> _deleteItem(
-      DeleteItem event, Emitter<ListBlocState> emit) async {}
+      DeleteItem event, Emitter<ListBlocState> emit) async {
+    final response =
+    await listRepository.deleteItem(event.id);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListState.none));
+      add(const ListBlocEvent.refresh());
+    }
+
+  }
 
   Future<void> _editItem(EditItem event, Emitter<ListBlocState> emit) async {}
 
@@ -55,8 +74,6 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       emit(state.copyWith(state: ListState.none));
       add(const ListBlocEvent.refresh());
     }
-
-
   }
 
   Future<void> _deleteComment(

@@ -13,7 +13,7 @@ class ListBlocEvent with _$ListBlocEvent {
   ) = EditList;
 
   //item changing events
-  const factory ListBlocEvent.createItem(String title, String description, DateTime? due, DateTime? done) = CreateItem;
+  const factory ListBlocEvent.createItem(int listId, String title, String description, DateTime? due) = CreateItem;
   const factory ListBlocEvent.deleteItem(int id) = DeleteItem;
   const factory ListBlocEvent.editItem(
       String title,

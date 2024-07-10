@@ -31,7 +31,7 @@ class ItemElement extends StatelessWidget {
               Text(item.title),
               Expanded(child: Container()),
               GestureDetector(
-                onTap: null,
+                onTap: () => listBloc.add(ListBlocEvent.deleteItem(item.id)),
                 child: const Icon(
                   Icons.delete_forever,
                   size: 24.0,

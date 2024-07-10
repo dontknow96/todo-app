@@ -8,6 +8,7 @@ part 'item_model.g.dart';
 class ItemModel with _$ItemModel {
   const factory ItemModel({
     required int id,
+    required int? listid,
     required String title,
     required String description,
     required DateTime due,

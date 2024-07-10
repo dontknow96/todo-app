@@ -140,7 +140,7 @@ class ListRepositoryRest implements ListRepository {
     final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
-      Uri.http(endpoint, "${ApiConstants.createComment}"),
+      Uri.http(endpoint, ApiConstants.createComment),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "bearer $token",
@@ -153,6 +153,59 @@ class ListRepositoryRest implements ListRepository {
         text: text,
         time: DateTime.now(),
       ).toJson()),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> deleteItem(int itemId) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.delete(
+      Uri.http(endpoint, "${ApiConstants.deleteItem}$itemId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> insertItem(
+      int listId, String title, String description, DateTime? due) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.post(
+      Uri.http(endpoint, ApiConstants.createItem),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(ItemModel(
+              id: 0,
+              listid: listId,
+              title: title,
+              description: description,
+              due: (due ?? DateTime.now()).toUtc(),
+              done: DateTime.now().toUtc())
+          .toJson()),
     );
 
     if (response.statusCode == 400) {

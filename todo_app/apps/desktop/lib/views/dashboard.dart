@@ -40,7 +40,7 @@ class DashboardView extends StatelessWidget {
                     ListElement(
                       list: list,
                       onIconClick: () => goToList(list.id),
-                      iconData: Icons.navigate_next,
+                      iconData: Icons.open_in_full,
                     )
                 ],
               ),
