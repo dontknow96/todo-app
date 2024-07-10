@@ -13,6 +13,6 @@ class ListBlocState with _$ListBlocState {
   const factory ListBlocState({
     required ListState state,
     required ListModel list,
-    required Iterable<(ItemModel item, Iterable<CommentModel> comments)> items,
+    required Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
   }) = _ListBlocState;
 }

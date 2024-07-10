@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ListBlocState {
   ListState get state => throw _privateConstructorUsedError;
   ListModel get list => throw _privateConstructorUsedError;
-  Iterable<(ItemModel, Iterable<CommentModel>)> get items =>
+  Map<int, (ItemModel, Map<int, CommentModel>)> get items =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $ListBlocStateCopyWith<$Res> {
   $Res call(
       {ListState state,
       ListModel list,
-      Iterable<(ItemModel, Iterable<CommentModel>)> items});
+      Map<int, (ItemModel, Map<int, CommentModel>)> items});
 
   $ListModelCopyWith<$Res> get list;
 }
@@ -69,7 +69,7 @@ class _$ListBlocStateCopyWithImpl<$Res, $Val extends ListBlocState>
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
-              as Iterable<(ItemModel, Iterable<CommentModel>)>,
+              as Map<int, (ItemModel, Map<int, CommentModel>)>,
     ) as $Val);
   }
 
@@ -93,7 +93,7 @@ abstract class _$$ListBlocStateImplCopyWith<$Res>
   $Res call(
       {ListState state,
       ListModel list,
-      Iterable<(ItemModel, Iterable<CommentModel>)> items});
+      Map<int, (ItemModel, Map<int, CommentModel>)> items});
 
   @override
   $ListModelCopyWith<$Res> get list;
@@ -124,9 +124,9 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
           : list // ignore: cast_nullable_to_non_nullable
               as ListModel,
       items: null == items
-          ? _value.items
+          ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
-              as Iterable<(ItemModel, Iterable<CommentModel>)>,
+              as Map<int, (ItemModel, Map<int, CommentModel>)>,
     ));
   }
 }
@@ -135,14 +135,22 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
 
 class _$ListBlocStateImpl implements _ListBlocState {
   const _$ListBlocStateImpl(
-      {required this.state, required this.list, required this.items});
+      {required this.state,
+      required this.list,
+      required final Map<int, (ItemModel, Map<int, CommentModel>)> items})
+      : _items = items;
 
   @override
   final ListState state;
   @override
   final ListModel list;
+  final Map<int, (ItemModel, Map<int, CommentModel>)> _items;
   @override
-  final Iterable<(ItemModel, Iterable<CommentModel>)> items;
+  Map<int, (ItemModel, Map<int, CommentModel>)> get items {
+    if (_items is EqualUnmodifiableMapView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_items);
+  }
 
   @override
   String toString() {
@@ -156,12 +164,12 @@ class _$ListBlocStateImpl implements _ListBlocState {
             other is _$ListBlocStateImpl &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.list, list) || other.list == list) &&
-            const DeepCollectionEquality().equals(other.items, items));
+            const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, state, list, const DeepCollectionEquality().hash(items));
+      runtimeType, state, list, const DeepCollectionEquality().hash(_items));
 
   @JsonKey(ignore: true)
   @override
@@ -174,7 +182,7 @@ abstract class _ListBlocState implements ListBlocState {
   const factory _ListBlocState(
           {required final ListState state,
           required final ListModel list,
-          required final Iterable<(ItemModel, Iterable<CommentModel>)> items}) =
+          required final Map<int, (ItemModel, Map<int, CommentModel>)> items}) =
       _$ListBlocStateImpl;
 
   @override
@@ -182,7 +190,7 @@ abstract class _ListBlocState implements ListBlocState {
   @override
   ListModel get list;
   @override
-  Iterable<(ItemModel, Iterable<CommentModel>)> get items;
+  Map<int, (ItemModel, Map<int, CommentModel>)> get items;
   @override
   @JsonKey(ignore: true)
   _$$ListBlocStateImplCopyWith<_$ListBlocStateImpl> get copyWith =>

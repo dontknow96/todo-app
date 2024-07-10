@@ -16,6 +16,8 @@ dependencies:
   freezed: ^2.5.1
   freezed_annotation: ^2.4.1
   go_router: ^13.2.0
+  helper:
+    path: ../../packages/helper
   intl: any
   user:
     path: ../../packages/user

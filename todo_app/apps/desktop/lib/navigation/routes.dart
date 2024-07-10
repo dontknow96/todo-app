@@ -16,12 +16,16 @@ class TodoRouterConfigDesktop {
   static List<RouteBase> routes() => [
         GoRoute(
           path: dashboard,
-          builder: (context, __) => DashboardView(goToList: (id) => GoRouter.of(context).go('$listUnparametered${id.toString()}')),
+          builder: (context, __) => DashboardView(
+              goToList: (id) => GoRouter.of(context)
+                  .go('$listUnparametered${id.toString()}')),
         ),
         GoRoute(
           path: list,
-          builder: (context, state) =>
-              TodoListView(listId: int.tryParse(state.pathParameters['id']!)!),
+          builder: (context, state) => TodoListView(
+            listId: int.tryParse(state.pathParameters['id']!)!,
+            onClickBack: () => GoRouter.of(context).go(dashboard),
+          ),
         ),
         GoRoute(
           path: home,

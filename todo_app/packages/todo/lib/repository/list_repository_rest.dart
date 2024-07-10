@@ -17,7 +17,7 @@ class ListRepositoryRest implements ListRepository {
   final storage = const FlutterSecureStorage();
 
   @override
-  Future<(Iterable<ListModel>, GetListResponse)> getAllLists() async {
+  Future<(Iterable<ListModel>, ApiResponse)> getAllLists() async {
     final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.get(
@@ -29,7 +29,7 @@ class ListRepositoryRest implements ListRepository {
     );
 
     if (response.statusCode == 400) {
-      return (<ListModel>[], GetListResponse.unauthorized);
+      return (<ListModel>[], ApiResponse.unauthorized);
     }
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
@@ -39,20 +39,20 @@ class ListRepositoryRest implements ListRepository {
         retVal.add(ListModel.fromJson(list));
       }
 
-      return (retVal, GetListResponse.success);
+      return (retVal, ApiResponse.success);
     }
 
-    return (<ListModel>[], GetListResponse.unknownError);
+    return (<ListModel>[], ApiResponse.unknownError);
   }
 
   @override
-  Future<GetListResponse> deleteList(int id) {
+  Future<ApiResponse> deleteList(int id) {
     // TODO: implement deleteList
     throw UnimplementedError();
   }
 
   @override
-  Future<GetListResponse> editList(int id, String title, String description) {
+  Future<ApiResponse> editList(int id, String title, String description) {
     // TODO: implement editList
     throw UnimplementedError();
   }
@@ -60,8 +60,11 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<
       (
-        (ListModel, Iterable<(ItemModel, Iterable<CommentModel>)>)?,
-        GetListResponse
+        (
+          ListModel list,
+          Map<int, (ItemModel item, Map<int, CommentModel> comments)> items
+        )? list,
+        ApiResponse response
       )> getList(int id) async {
     final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
 
@@ -74,24 +77,26 @@ class ListRepositoryRest implements ListRepository {
     );
 
     if (response.statusCode == 400) {
-      return (null, GetListResponse.unauthorized);
+      return (null, ApiResponse.unauthorized);
     }
     if (response.statusCode == 200) {
       final bodyObject = jsonDecode(response.body);
-      var list = (
+      final list = (
         ListModel.fromJson(bodyObject["data"]),
-        <(ItemModel, Iterable<CommentModel>)>[]
+        <int, (ItemModel item, Map<int, CommentModel> comments)>{}
       );
 
       final items = bodyObject["items"];
       if (items == null) {
-        return (list, GetListResponse.success);
+        return (list, ApiResponse.success);
       }
 
       for (final itemObject in items) {
-        final item =
-            (ItemModel.fromJson(itemObject["itemdata"]), <CommentModel>[]);
-        list.$2.add(item);
+        final item = (
+          ItemModel.fromJson(itemObject["itemdata"]),
+          <int, CommentModel>{}
+        );
+        list.$2[item.$1.id] = item;
 
         final comments = itemObject["comments"];
         if (comments == null) {
@@ -100,13 +105,26 @@ class ListRepositoryRest implements ListRepository {
 
         for (final comment in comments) {
           final commentModel = CommentModel.fromJson(comment);
-          item.$2.add(commentModel);
+          item.$2[commentModel.id] = commentModel;
         }
       }
 
-      return (list, GetListResponse.success);
+      return (list, ApiResponse.success);
     }
 
-    return (null, GetListResponse.unknownError);
+    return (null, ApiResponse.unknownError);
+  }
+
+  @override
+  Future<ApiResponse> deleteComment(int commentId) {
+    // TODO: implement insertComment
+    throw UnimplementedError();
+
+  }
+
+  @override
+  Future<ApiResponse> insertComment(int itemId, String text) {
+    // TODO: implement insertComment
+    throw UnimplementedError();
   }
 }

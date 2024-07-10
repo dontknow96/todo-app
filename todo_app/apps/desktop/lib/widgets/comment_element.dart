@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo/bloc/comment/comment_bloc.dart';
 import 'package:todo/bloc/comment/comment_bloc_state.dart';
+import 'package:todo/bloc/list/list_bloc.dart';
+import 'package:todo/bloc/list/list_bloc_event.dart';
+import 'package:todo/bloc/list/list_bloc_state.dart';
 import 'package:todo/model/comment_model.dart';
 import 'package:todo/repository/list_repository.dart';
 
@@ -16,31 +19,31 @@ class CommentElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CommentBloc(
-        CommentBlocState(state: CommentState.none, comment: comment),
-        GetIt.I.get<ListRepository>(),
-      ),
-      child: BlocBuilder<CommentBloc, CommentBlocState>(
-        builder: (BuildContext context, state) {
-          // final itemBloc = context.read<CommentBloc>();
+    return BlocBuilder<ListBloc, ListBlocState>(
+      builder: (BuildContext context, state) {
+        final listBloc = context.read<ListBloc>();
 
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Text(state.comment.author),
-                  Expanded(child: Container()),
-                  Text(state.comment.time.toString()),
-                  Expanded(child: Container()),
-                  const Text("delete"),
-                ],
-              ),
-              Text(state.comment.text),
-            ],
-          );
-        },
-      ),
+        return Column(
+          children: [
+            Row(
+              children: [
+                Text(comment.author),
+                Expanded(child: Container()),
+                Text(comment.time.toString()),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: () => listBloc.add(ListBlocEvent.deleteComment(comment.id)),
+                  child: const Icon(
+                    Icons.delete_forever,
+                    size: 24.0,
+                  ),
+                ),
+              ],
+            ),
+            Text(comment.text),
+          ],
+        );
+      },
     );
   }
 }

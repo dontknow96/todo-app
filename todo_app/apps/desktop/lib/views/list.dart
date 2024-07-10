@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:desktop/widgets/item_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +15,11 @@ import '../widgets/list_element.dart';
 class TodoListView extends StatelessWidget {
   const TodoListView({
     super.key,
+    required this.onClickBack,
     required this.listId,
   });
 
+  final void Function() onClickBack;
   final int listId;
 
   @override
@@ -30,13 +34,24 @@ class TodoListView extends StatelessWidget {
                 ownerusername: "",
                 title: "",
                 description: ""),
-            items: [],
+            items: {},
           ),
           GetIt.I.get<ListRepository>()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("List View"),
-        ),
+            title: Row(
+          children: [
+            const Text("List View"),
+            Expanded(child: Container()),
+            GestureDetector(
+              onTap: onClickBack,
+              child: const Icon(
+                Icons.arrow_back,
+                size: 24.0,
+              ),
+            ),
+          ],
+        )),
         body: BlocBuilder<ListBloc, ListBlocState>(
           builder: (BuildContext context, ListBlocState state) {
             if (state.state == ListState.loading) {
@@ -44,18 +59,23 @@ class TodoListView extends StatelessWidget {
             }
             final listBloc = context.read<ListBloc>();
 
-            final list = state.list;
-            final items = state.items;
-
-            return ListView(
-              children: [
-                ListElement(
-                  list: list,
-                  onIconClick: () => listBloc.add(const ListBlocEvent.delete()),
-                  iconData: Icons.delete_forever,
-                ),
-                for (final item in items) ItemElement(item: item.$1, comments: item.$2,)
-              ],
+            return RefreshIndicator(
+              onRefresh: () async =>
+                  listBloc.add(const ListBlocEvent.refresh()),
+              child: ListView(
+                children: [
+                  ListElement(
+                    list: state.list,
+                    onIconClick: () =>
+                        listBloc.add(ListBlocEvent.deleteList(state.list.id)),
+                    iconData: Icons.delete_forever,
+                  ),
+                  for (final item in state.items.entries)
+                    ItemElement(
+                      item: item.value.$1,
+                    )
+                ],
+              ),
             );
           },
         ),
