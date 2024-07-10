@@ -92,10 +92,8 @@ class ListRepositoryRest implements ListRepository {
       }
 
       for (final itemObject in items) {
-        final item = (
-          ItemModel.fromJson(itemObject["itemdata"]),
-          <int, CommentModel>{}
-        );
+        final item =
+            (ItemModel.fromJson(itemObject["itemdata"]), <int, CommentModel>{});
         list.$2[item.$1.id] = item;
 
         final comments = itemObject["comments"];
@@ -116,15 +114,54 @@ class ListRepositoryRest implements ListRepository {
   }
 
   @override
-  Future<ApiResponse> deleteComment(int commentId) {
-    // TODO: implement insertComment
-    throw UnimplementedError();
+  Future<ApiResponse> deleteComment(int commentId) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
 
+    final response = await http.delete(
+      Uri.http(endpoint, "${ApiConstants.deleteComment}$commentId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
   }
 
   @override
-  Future<ApiResponse> insertComment(int itemId, String text) {
-    // TODO: implement insertComment
-    throw UnimplementedError();
+  Future<ApiResponse> insertComment(int itemId, String text) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.post(
+      Uri.http(endpoint, "${ApiConstants.createComment}"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(CommentModel(
+        id: 0,
+        itemid: itemId,
+        authorid: 0,
+        author: "",
+        text: text,
+        time: DateTime.now(),
+      ).toJson()),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
   }
 }

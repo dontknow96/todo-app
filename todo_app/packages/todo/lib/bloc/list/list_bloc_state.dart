@@ -14,5 +14,6 @@ class ListBlocState with _$ListBlocState {
     required ListState state,
     required ListModel list,
     required Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
+    String? error,
   }) = _ListBlocState;
 }

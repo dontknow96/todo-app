@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:desktop/widgets/item_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,9 +52,6 @@ class TodoListView extends StatelessWidget {
         )),
         body: BlocBuilder<ListBloc, ListBlocState>(
           builder: (BuildContext context, ListBlocState state) {
-            if (state.state == ListState.loading) {
-              return const Center(child: CircularProgressIndicator());
-            }
             final listBloc = context.read<ListBloc>();
 
             return RefreshIndicator(

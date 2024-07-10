@@ -9,7 +9,7 @@ class ApiConstants{
   //item endpoints
 
   //comment endpoints
-  static const createCoomment = 'list/all';
+  static const createComment = 'comment/new';
   static const deleteComment = 'comment/';
 
 }

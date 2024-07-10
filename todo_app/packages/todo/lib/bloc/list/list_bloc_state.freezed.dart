@@ -20,6 +20,7 @@ mixin _$ListBlocState {
   ListModel get list => throw _privateConstructorUsedError;
   Map<int, (ItemModel, Map<int, CommentModel>)> get items =>
       throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ListBlocStateCopyWith<ListBlocState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $ListBlocStateCopyWith<$Res> {
   $Res call(
       {ListState state,
       ListModel list,
-      Map<int, (ItemModel, Map<int, CommentModel>)> items});
+      Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      String? error});
 
   $ListModelCopyWith<$Res> get list;
 }
@@ -56,6 +58,7 @@ class _$ListBlocStateCopyWithImpl<$Res, $Val extends ListBlocState>
     Object? state = null,
     Object? list = null,
     Object? items = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       state: null == state
@@ -70,6 +73,10 @@ class _$ListBlocStateCopyWithImpl<$Res, $Val extends ListBlocState>
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as Map<int, (ItemModel, Map<int, CommentModel>)>,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -93,7 +100,8 @@ abstract class _$$ListBlocStateImplCopyWith<$Res>
   $Res call(
       {ListState state,
       ListModel list,
-      Map<int, (ItemModel, Map<int, CommentModel>)> items});
+      Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      String? error});
 
   @override
   $ListModelCopyWith<$Res> get list;
@@ -113,6 +121,7 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
     Object? state = null,
     Object? list = null,
     Object? items = null,
+    Object? error = freezed,
   }) {
     return _then(_$ListBlocStateImpl(
       state: null == state
@@ -127,6 +136,10 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
               as Map<int, (ItemModel, Map<int, CommentModel>)>,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$ListBlocStateImpl implements _ListBlocState {
   const _$ListBlocStateImpl(
       {required this.state,
       required this.list,
-      required final Map<int, (ItemModel, Map<int, CommentModel>)> items})
+      required final Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      this.error})
       : _items = items;
 
   @override
@@ -153,8 +167,11 @@ class _$ListBlocStateImpl implements _ListBlocState {
   }
 
   @override
+  final String? error;
+
+  @override
   String toString() {
-    return 'ListBlocState(state: $state, list: $list, items: $items)';
+    return 'ListBlocState(state: $state, list: $list, items: $items, error: $error)';
   }
 
   @override
@@ -164,12 +181,13 @@ class _$ListBlocStateImpl implements _ListBlocState {
             other is _$ListBlocStateImpl &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.list, list) || other.list == list) &&
-            const DeepCollectionEquality().equals(other._items, _items));
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, state, list, const DeepCollectionEquality().hash(_items));
+  int get hashCode => Object.hash(runtimeType, state, list,
+      const DeepCollectionEquality().hash(_items), error);
 
   @JsonKey(ignore: true)
   @override
@@ -180,10 +198,10 @@ class _$ListBlocStateImpl implements _ListBlocState {
 
 abstract class _ListBlocState implements ListBlocState {
   const factory _ListBlocState(
-          {required final ListState state,
-          required final ListModel list,
-          required final Map<int, (ItemModel, Map<int, CommentModel>)> items}) =
-      _$ListBlocStateImpl;
+      {required final ListState state,
+      required final ListModel list,
+      required final Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      final String? error}) = _$ListBlocStateImpl;
 
   @override
   ListState get state;
@@ -191,6 +209,8 @@ abstract class _ListBlocState implements ListBlocState {
   ListModel get list;
   @override
   Map<int, (ItemModel, Map<int, CommentModel>)> get items;
+  @override
+  String? get error;
   @override
   @JsonKey(ignore: true)
   _$$ListBlocStateImplCopyWith<_$ListBlocStateImpl> get copyWith =>

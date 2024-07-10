@@ -20,7 +20,7 @@ class ItemElement extends StatelessWidget {
 
     return BlocBuilder<ListBloc, ListBlocState>(
       builder: (BuildContext context, state) {
-        final listBloc = context.read<ListBloc>();
+        final listBloc = BlocProvider.of<ListBloc>(context);
 
         return ExpansionTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -44,15 +44,20 @@ class ItemElement extends StatelessWidget {
             for (final comment in state.items[item.id]!.$2.entries)
               CommentElement(comment: comment.value),
             Row(children: [
-              TextField(
-                controller: commentTextController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'add comment',
+              Expanded(
+                child: TextField(
+                  controller: commentTextController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'add comment',
+                  ),
                 ),
               ),
               GestureDetector(
-                onTap: () => listBloc.add(ListBlocEvent.createComment(commentTextController.value.text)),
+                onTap: () => listBloc.add(ListBlocEvent.createComment(
+                  item.id,
+                  commentTextController.value.text,
+                )),
                 child: const Icon(
                   Icons.send,
                   size: 24.0,

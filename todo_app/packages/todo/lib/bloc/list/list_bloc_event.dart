@@ -23,7 +23,7 @@ class ListBlocEvent with _$ListBlocEvent {
       ) = EditItem;
 
   //comment changing events
-  const factory ListBlocEvent.createComment(String text) = CreateComment;
+  const factory ListBlocEvent.createComment(int itemId, String text) = CreateComment;
   const factory ListBlocEvent.deleteComment(int id) = DeleteComment;
 
 }

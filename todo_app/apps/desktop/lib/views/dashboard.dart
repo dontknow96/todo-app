@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo/bloc/list/list_bloc.dart';
-import 'package:todo/bloc/list/list_bloc_event.dart';
 import 'package:todo/bloc/list_overview/list_overview_bloc.dart';
 import 'package:todo/bloc/list_overview/list_overview_bloc_event.dart';
 import 'package:todo/bloc/list_overview/list_overview_bloc_state.dart';
