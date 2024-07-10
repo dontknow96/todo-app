@@ -1,4 +1,5 @@
 import 'package:desktop/views/dashboard.dart';
+import 'package:desktop/views/list.dart';
 import 'package:desktop/views/register.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,11 +10,18 @@ class TodoRouterConfigDesktop {
   static const register = '/register';
   static const home = '/';
   static const dashboard = '/dashboard';
+  static const list = '/list/:id';
+  static const listUnparametered = '/list/';
 
   static List<RouteBase> routes() => [
         GoRoute(
           path: dashboard,
-          builder: (context, __) => Dashboard(goToList: (id) {}),
+          builder: (context, __) => DashboardView(goToList: (id) => GoRouter.of(context).go('$listUnparametered${id.toString()}')),
+        ),
+        GoRoute(
+          path: list,
+          builder: (context, state) =>
+              TodoListView(listId: int.tryParse(state.pathParameters['id']!)!),
         ),
         GoRoute(
           path: home,

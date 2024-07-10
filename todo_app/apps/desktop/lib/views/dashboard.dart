@@ -8,8 +8,8 @@ import 'package:todo/repository/list_repository.dart';
 
 import '../widgets/list_element.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({
+class DashboardView extends StatelessWidget {
+  const DashboardView({
     super.key,
     required this.goToList,
   });
@@ -23,7 +23,9 @@ class Dashboard extends StatelessWidget {
           const ListOverviewBlocState(lists: <ListModel>[]),
           GetIt.I.get<ListRepository>()),
       child: Scaffold(
-        appBar: AppBar(title: Text("dashboard"),),
+        appBar: AppBar(
+          title: Text("dashboard"),
+        ),
         body: BlocBuilder<ListOverviewBloc, ListOverviewBlocState>(
           builder: (BuildContext context, ListOverviewBlocState state) {
             return ListView(
@@ -31,7 +33,8 @@ class Dashboard extends StatelessWidget {
                 for (final list in state.lists)
                   ListElement(
                     list: list,
-                    goToList: goToList,
+                    onIconClick: () => goToList(list.id),
+                    iconData: Icons.navigate_next,
                   )
               ],
             );

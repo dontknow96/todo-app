@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:todo/model/list_model.dart';
 
 class ListElement extends StatelessWidget {
-  const ListElement({
-    super.key,
-    required this.list,
-    required this.goToList,
-  });
+  const ListElement(
+      {super.key,
+      required this.list,
+      required this.onIconClick,
+      required this.iconData});
 
   final ListModel list;
-  final void Function(int id) goToList;
+  final Function() onIconClick;
+  final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,9 @@ class ListElement extends StatelessWidget {
           Text(list.title),
           Expanded(child: Container()),
           GestureDetector(
-            onTap: () => goToList(list.id),
-            child: const Icon(
-              Icons.navigate_next,
+            onTap: onIconClick,
+            child: Icon(
+              iconData,
               size: 24.0,
             ),
           ),

@@ -17,8 +17,6 @@ type listParameter struct {
 
 // list
 func GetList(context fiber.Ctx) error {
-	context.Accepts("application/json")
-
 	//retrieve request Data
 	params := listParameter{}
 	id, err := strconv.Atoi(context.Params("id", ""))
@@ -26,11 +24,6 @@ func GetList(context fiber.Ctx) error {
 		return context.SendStatus(http.StatusBadRequest)
 	}
 	params.ListId = id
-
-	if err = json.Unmarshal(context.Body(), &params); err != nil {
-		_ = context.SendStatus(http.StatusBadRequest)
-		return context.SendString("Body malformed")
-	}
 
 	//check authorization
 	authUser, err := userjwt.VerifiedUser(context)
