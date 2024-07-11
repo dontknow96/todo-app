@@ -7,6 +7,7 @@ import 'package:todo/bloc/list/list_bloc_event.dart';
 import 'package:todo/bloc/list/list_bloc_state.dart';
 import 'package:todo/model/list_model.dart';
 import 'package:todo/repository/list_repository.dart';
+import 'package:user/bloc/user/user_bloc.dart';
 
 import '../widgets/create_item_widget.dart';
 import '../widgets/list_element.dart';
@@ -39,6 +40,9 @@ class TodoListView extends StatelessWidget {
       child: BlocBuilder<ListBloc, ListBlocState>(
         builder: (BuildContext context, ListBlocState state) {
           final listBloc = context.read<ListBloc>();
+          final userBloc = context.read<UserBloc>();
+
+          final isOwner = userBloc.state.username == state.list.ownerusername;
 
           if (state.state == ListState.deleted) {
             Future.delayed(Duration.zero, onClickBack);
@@ -69,9 +73,11 @@ class TodoListView extends StatelessWidget {
                 children: [
                   ListElement(
                     list: state.list,
-                    onIconClick: () =>
-                        listBloc.add(ListBlocEvent.deleteList(state.list.id)),
-                    iconData: Icons.delete_forever,
+                    onIconClick: isOwner
+                        ? () => listBloc
+                            .add(ListBlocEvent.deleteList(state.list.id))
+                        : null,
+                    iconData: isOwner ? Icons.delete_forever : null,
                   ),
                   for (final item in state.items.entries)
                     ItemElement(

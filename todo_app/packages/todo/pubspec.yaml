@@ -20,6 +20,8 @@ dependencies:
   json_annotation: ^4.9.0
   user:
     path: ../user
+  helper:
+    path: ../helper
 
 dev_dependencies:
   build_runner: ^2.4.9

@@ -25,8 +25,8 @@ mixin _$ListBlocEvent {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -41,8 +41,8 @@ mixin _$ListBlocEvent {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -57,8 +57,8 @@ mixin _$ListBlocEvent {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -167,8 +167,8 @@ class _$RefreshImpl implements Refresh {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -186,8 +186,8 @@ class _$RefreshImpl implements Refresh {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -205,8 +205,8 @@ class _$RefreshImpl implements Refresh {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -343,8 +343,8 @@ class _$DeleteListImpl implements DeleteList {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -362,8 +362,8 @@ class _$DeleteListImpl implements DeleteList {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -381,8 +381,8 @@ class _$DeleteListImpl implements DeleteList {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -533,8 +533,8 @@ class _$EditListImpl implements EditList {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -552,8 +552,8 @@ class _$EditListImpl implements EditList {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -571,8 +571,8 @@ class _$EditListImpl implements EditList {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -741,8 +741,8 @@ class _$CreateItemImpl implements CreateItem {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -760,8 +760,8 @@ class _$CreateItemImpl implements CreateItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -779,8 +779,8 @@ class _$CreateItemImpl implements CreateItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -926,8 +926,8 @@ class _$DeleteItemImpl implements DeleteItem {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -945,8 +945,8 @@ class _$DeleteItemImpl implements DeleteItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -964,8 +964,8 @@ class _$DeleteItemImpl implements DeleteItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -1042,7 +1042,12 @@ abstract class _$$EditItemImplCopyWith<$Res> {
           _$EditItemImpl value, $Res Function(_$EditItemImpl) then) =
       __$$EditItemImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String title, String description, DateTime? due, DateTime? done});
+  $Res call(
+      {int id,
+      String title,
+      String description,
+      DateTime? due,
+      DateTime? done});
 }
 
 /// @nodoc
@@ -1056,12 +1061,17 @@ class __$$EditItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? description = null,
     Object? due = freezed,
     Object? done = freezed,
   }) {
     return _then(_$EditItemImpl(
+      null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -1085,8 +1095,11 @@ class __$$EditItemImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EditItemImpl implements EditItem {
-  const _$EditItemImpl(this.title, this.description, this.due, this.done);
+  const _$EditItemImpl(
+      this.id, this.title, this.description, this.due, this.done);
 
+  @override
+  final int id;
   @override
   final String title;
   @override
@@ -1098,7 +1111,7 @@ class _$EditItemImpl implements EditItem {
 
   @override
   String toString() {
-    return 'ListBlocEvent.editItem(title: $title, description: $description, due: $due, done: $done)';
+    return 'ListBlocEvent.editItem(id: $id, title: $title, description: $description, due: $due, done: $done)';
   }
 
   @override
@@ -1106,6 +1119,7 @@ class _$EditItemImpl implements EditItem {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EditItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -1114,7 +1128,8 @@ class _$EditItemImpl implements EditItem {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, description, due, done);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, description, due, done);
 
   @JsonKey(ignore: true)
   @override
@@ -1132,13 +1147,13 @@ class _$EditItemImpl implements EditItem {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
   }) {
-    return editItem(title, description, due, done);
+    return editItem(id, title, description, due, done);
   }
 
   @override
@@ -1151,13 +1166,13 @@ class _$EditItemImpl implements EditItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
   }) {
-    return editItem?.call(title, description, due, done);
+    return editItem?.call(id, title, description, due, done);
   }
 
   @override
@@ -1170,15 +1185,15 @@ class _$EditItemImpl implements EditItem {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
     required TResult orElse(),
   }) {
     if (editItem != null) {
-      return editItem(title, description, due, done);
+      return editItem(id, title, description, due, done);
     }
     return orElse();
   }
@@ -1234,9 +1249,14 @@ class _$EditItemImpl implements EditItem {
 }
 
 abstract class EditItem implements ListBlocEvent {
-  const factory EditItem(final String title, final String description,
-      final DateTime? due, final DateTime? done) = _$EditItemImpl;
+  const factory EditItem(
+      final int id,
+      final String title,
+      final String description,
+      final DateTime? due,
+      final DateTime? done) = _$EditItemImpl;
 
+  int get id;
   String get title;
   String get description;
   DateTime? get due;
@@ -1325,8 +1345,8 @@ class _$CreateCommentImpl implements CreateComment {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -1344,8 +1364,8 @@ class _$CreateCommentImpl implements CreateComment {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -1363,8 +1383,8 @@ class _$CreateCommentImpl implements CreateComment {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
@@ -1508,8 +1528,8 @@ class _$DeleteCommentImpl implements DeleteComment {
             int listId, String title, String description, DateTime? due)
         createItem,
     required TResult Function(int id) deleteItem,
-    required TResult Function(
-            String title, String description, DateTime? due, DateTime? done)
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
@@ -1527,8 +1547,8 @@ class _$DeleteCommentImpl implements DeleteComment {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult? Function(int id)? deleteItem,
-    TResult? Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
@@ -1546,8 +1566,8 @@ class _$DeleteCommentImpl implements DeleteComment {
             int listId, String title, String description, DateTime? due)?
         createItem,
     TResult Function(int id)? deleteItem,
-    TResult Function(
-            String title, String description, DateTime? due, DateTime? done)?
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,

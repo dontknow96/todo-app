@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:helper/helper.dart';
 import 'package:todo/model/list_model.dart';
 import 'package:user/storage_constants.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +16,6 @@ class ListRepositoryRest implements ListRepository {
 
   final String endpoint;
   final storage = const FlutterSecureStorage();
-
-  static DateTime dateTimeNullReplacement = DateTime(1, 1, 1, 0, 0, 0, 0, 0);
 
   @override
   Future<(Iterable<ListModel>, ApiResponse)> getAllLists() async {
@@ -221,8 +220,8 @@ class ListRepositoryRest implements ListRepository {
               listid: listId,
               title: title,
               description: description,
-              due: (due ?? dateTimeNullReplacement).toUtc(),
-              done: dateTimeNullReplacement.toUtc())
+              due: (due ?? Helper.DateTimeNullReplacement).toUtc(),
+              done: Helper.DateTimeNullReplacement.toUtc())
           .toJson()),
     );
 
@@ -273,7 +272,7 @@ class ListRepositoryRest implements ListRepository {
     final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
-      Uri.http(endpoint, ApiConstants.createList),
+      Uri.http(endpoint, '${ApiConstants.editItem}$itemid'),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "bearer $token",
@@ -284,8 +283,8 @@ class ListRepositoryRest implements ListRepository {
           listid: 0,
           title: title,
           description: description,
-            due: (due ?? dateTimeNullReplacement).toUtc(),
-            done: (done ?? dateTimeNullReplacement).toUtc(),
+          due: (due ?? Helper.DateTimeNullReplacement).toUtc(),
+          done: (done ?? Helper.DateTimeNullReplacement).toUtc(),
         ),
       ),
     );

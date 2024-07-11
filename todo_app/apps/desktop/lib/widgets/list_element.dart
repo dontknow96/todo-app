@@ -9,8 +9,8 @@ class ListElement extends StatelessWidget {
       required this.iconData});
 
   final ListModel list;
-  final Function() onIconClick;
-  final IconData iconData;
+  final Function()? onIconClick;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {

@@ -80,7 +80,18 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
     emit(state.copyWith(state: ListState.none));
   }
 
-  Future<void> _editItem(EditItem event, Emitter<ListBlocState> emit) async {}
+  Future<void> _editItem(EditItem event, Emitter<ListBlocState> emit) async {
+    emit(state.copyWith(state: ListState.loading));
+    final response = await listRepository.editItem(
+        event.id, event.title, event.description, event.due, event.done);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListState.none));
+      add(const ListBlocEvent.refresh());
+      return;
+    }
+    emit(state.copyWith(state: ListState.none));
+  }
 
   Future<void> _createComment(
       CreateComment event, Emitter<ListBlocState> emit) async {
