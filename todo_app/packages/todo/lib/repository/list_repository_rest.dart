@@ -220,8 +220,8 @@ class ListRepositoryRest implements ListRepository {
               listid: listId,
               title: title,
               description: description,
-              due: (due ?? Helper.DateTimeNullReplacement).toUtc(),
-              done: Helper.DateTimeNullReplacement.toUtc())
+              due: (due ?? Helper.dateTimeNullReplacement).toUtc(),
+              done: Helper.dateTimeNullReplacement.toUtc())
           .toJson()),
     );
 
@@ -283,8 +283,8 @@ class ListRepositoryRest implements ListRepository {
           listid: 0,
           title: title,
           description: description,
-          due: (due ?? Helper.DateTimeNullReplacement).toUtc(),
-          done: (done ?? Helper.DateTimeNullReplacement).toUtc(),
+          due: (due ?? Helper.dateTimeNullReplacement).toUtc(),
+          done: (done ?? Helper.dateTimeNullReplacement).toUtc(),
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:desktop/widgets/comment_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:helper/helper.dart';
 import 'package:todo/bloc/list/list_bloc_event.dart';
 import 'package:todo/bloc/list/list_bloc_state.dart';
@@ -25,9 +24,9 @@ class ItemElement extends StatelessWidget {
         final listBloc = BlocProvider.of<ListBloc>(context);
 
         final isDone =
-            !item.done.isAtSameMomentAs(Helper.DateTimeNullReplacement);
+            !item.done.isAtSameMomentAs(Helper.dateTimeNullReplacement);
         final hasDue =
-            !item.due.isAtSameMomentAs(Helper.DateTimeNullReplacement);
+            !item.due.isAtSameMomentAs(Helper.dateTimeNullReplacement);
 
         return ExpansionTile(
           controlAffinity: ListTileControlAffinity.leading,
@@ -41,7 +40,7 @@ class ItemElement extends StatelessWidget {
                     item.title,
                     item.description,
                     item.due,
-                    isDone ? Helper.DateTimeNullReplacement : DateTime.now(),
+                    isDone ? Helper.dateTimeNullReplacement : DateTime.now(),
                   ),
                 ),
               ),
