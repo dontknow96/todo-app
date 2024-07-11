@@ -28,4 +28,8 @@ func SetUpRouting(app *fiber.App) {
 	//comment
 	app.Post("/comment/new", service.InsertComment)
 	app.Delete("/comment/:id", service.DeleteComment)
+
+	//permission
+	app.Post("/permission/new", service.InsertComment)
+	app.Delete("/permission/:id", service.DeleteComment)
 }

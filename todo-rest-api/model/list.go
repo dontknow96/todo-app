@@ -9,6 +9,7 @@ type ListData struct {
 }
 
 type List struct {
-	ListData ListData `json:"data"`
-	Items    []Item   `json:"items"`
+	ListData    ListData         `json:"data"`
+	Items       []Item           `json:"items"`
+	Permissions []PermissionData `json:"permissions"`
 }

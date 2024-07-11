@@ -32,6 +32,11 @@ type Todo struct {
 	getCommentStatement    *sql.Stmt
 	insertCommentStatement *sql.Stmt
 	deleteCommentStatement *sql.Stmt
+
+	//permission
+	getPermissionStatement    *sql.Stmt
+	insertPermissionStatement *sql.Stmt
+	deletePermissionStatement *sql.Stmt
 }
 
 func (todo *Todo) Setup() error {
@@ -115,6 +120,22 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
+	//create prepared statements for permission
+	todo.getCommentStatement, err = todo.dbHandle.Prepare("SELECT users.id, users.username FROM permission JOIN users ON permission.userid = users.id WHERE permission.listid = ?")
+	if err != nil {
+		return err
+	}
+
+	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO permission(listid,userid) SELECT ?,? FROM list WHERE list.ownerid = ? AND list.id = ?")
+	if err != nil {
+		return err
+	}
+
+	todo.deleteCommentStatement, err = todo.dbHandle.Prepare("DELETE permission FROM permission LEFT JOIN list ON permission.listid = list.id WHERE list.id = ? AND list.ownerid = ? AND permission.userid = ?")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -140,22 +161,36 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 		return model.List{}, err
 	}
 
-	//retrieve items
-	var items []model.ItemData
+	//retrieve permissions
 	result, err = todo.getItemStatement.Query(id)
-
 	if err != nil {
 		return model.List{}, err
 	}
 
-	items, err = GetAllValuesFromQuery[model.ItemData](result)
+	permissions, err := GetAllValuesFromQuery[model.PermissionData](result)
 	err = result.Close()
 	if err != nil {
 		log.Error(err)
 		return model.List{}, err
 	}
 
+	retval.Permissions = permissions
+
 	//retrieve items
+	result, err = todo.getItemStatement.Query(id)
+
+	if err != nil {
+		return model.List{}, err
+	}
+
+	items, err := GetAllValuesFromQuery[model.ItemData](result)
+	err = result.Close()
+	if err != nil {
+		log.Error(err)
+		return model.List{}, err
+	}
+
+	//retrieve comments
 	for _, item := range items {
 		var comments []model.Comment
 
@@ -310,6 +345,38 @@ func (todo *Todo) InsertComment(itemId int, authorid int, description string, ti
 
 func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
 	result, err := todo.deleteCommentStatement.Exec(id, authorid)
+	if err != nil {
+		log.Error(err)
+		return false, err
+	}
+	rowsAffected, _ := result.RowsAffected()
+
+	return rowsAffected == 1, err
+}
+
+// PermissionData funcitons
+func (todo *Todo) InsertPermission(listid int, userid int, ownerid int) (int64, error) {
+	result, err := todo.insertPermissionStatement.Exec(listid, userid, ownerid, listid)
+	if err != nil {
+		log.Error(err)
+		return -1, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		log.Error(err)
+		return id, err
+	}
+	if id == 0 {
+		log.Error(err)
+		return id, errors.New("failed to create")
+	}
+
+	return id, err
+}
+
+func (todo *Todo) DeletePermission(listId int, ownerId int, userId int) (bool, error) {
+	result, err := todo.deletePermissionStatement.Exec(listId, ownerId, userId)
 	if err != nil {
 		log.Error(err)
 		return false, err
