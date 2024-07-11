@@ -8,6 +8,8 @@ class ListOverviewBloc
   ListOverviewBloc(super.initialState, this.listRepository) {
     on<Refresh>(_refresh);
 
+    on<CreateList>(_createList);
+
     add(const ListOverviewBlocEvent.refresh());
   }
 
@@ -15,6 +17,20 @@ class ListOverviewBloc
 
   Future<void> _refresh(
       Refresh event, Emitter<ListOverviewBlocState> emit) async {
-    emit(state.copyWith(lists: (await listRepository.getAllLists()).$1));
+    emit(state.copyWith(state: ListOverviewState.loading));
+    emit(state.copyWith(lists: (await listRepository.getAllLists()).$1, state: ListOverviewState.none));
+  }
+
+  Future<void> _createList(
+      CreateList event, Emitter<ListOverviewBlocState> emit) async {
+    emit(state.copyWith(state: ListOverviewState.loading));
+    final response =
+    await listRepository.insertList(event.title, event.description);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListOverviewState.none));
+      add(const ListOverviewBlocEvent.refresh());
+      return;
+    }
   }
 }

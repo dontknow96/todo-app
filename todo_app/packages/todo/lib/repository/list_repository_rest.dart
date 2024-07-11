@@ -16,6 +16,8 @@ class ListRepositoryRest implements ListRepository {
   final String endpoint;
   final storage = const FlutterSecureStorage();
 
+  static DateTime dateTimeNullReplacement = DateTime(1, 1, 1, 0, 0, 0, 0, 0);
+
   @override
   Future<(Iterable<ListModel>, ApiResponse)> getAllLists() async {
     final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
@@ -219,9 +221,73 @@ class ListRepositoryRest implements ListRepository {
               listid: listId,
               title: title,
               description: description,
-              due: (due ?? DateTime.now()).toUtc(),
-              done: DateTime.now().toUtc())
+              due: (due ?? dateTimeNullReplacement).toUtc(),
+              done: dateTimeNullReplacement.toUtc())
           .toJson()),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> insertList(String title, String description) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.post(
+      Uri.http(endpoint, ApiConstants.createList),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(
+        ListModel(
+          id: 0,
+          ownerid: 0,
+          ownerusername: '',
+          title: title,
+          description: description,
+        ),
+      ),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> editItem(int itemid, String title, String description,
+      DateTime? due, DateTime? done) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.post(
+      Uri.http(endpoint, ApiConstants.createList),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(
+        ItemModel(
+          id: itemid,
+          listid: 0,
+          title: title,
+          description: description,
+            due: (due ?? dateTimeNullReplacement).toUtc(),
+            done: (done ?? dateTimeNullReplacement).toUtc(),
+        ),
+      ),
     );
 
     if (response.statusCode == 400) {

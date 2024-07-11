@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ListOverviewBlocState {
+  ListOverviewState get state => throw _privateConstructorUsedError;
   Iterable<ListModel> get lists => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,7 @@ abstract class $ListOverviewBlocStateCopyWith<$Res> {
           $Res Function(ListOverviewBlocState) then) =
       _$ListOverviewBlocStateCopyWithImpl<$Res, ListOverviewBlocState>;
   @useResult
-  $Res call({Iterable<ListModel> lists});
+  $Res call({ListOverviewState state, Iterable<ListModel> lists});
 }
 
 /// @nodoc
@@ -46,9 +47,14 @@ class _$ListOverviewBlocStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? state = null,
     Object? lists = null,
   }) {
     return _then(_value.copyWith(
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ListOverviewState,
       lists: null == lists
           ? _value.lists
           : lists // ignore: cast_nullable_to_non_nullable
@@ -66,7 +72,7 @@ abstract class _$$ListOverviewBlocStateImplCopyWith<$Res>
       __$$ListOverviewBlocStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Iterable<ListModel> lists});
+  $Res call({ListOverviewState state, Iterable<ListModel> lists});
 }
 
 /// @nodoc
@@ -81,9 +87,14 @@ class __$$ListOverviewBlocStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? state = null,
     Object? lists = null,
   }) {
     return _then(_$ListOverviewBlocStateImpl(
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ListOverviewState,
       lists: null == lists
           ? _value.lists
           : lists // ignore: cast_nullable_to_non_nullable
@@ -95,14 +106,16 @@ class __$$ListOverviewBlocStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
-  const _$ListOverviewBlocStateImpl({required this.lists});
+  const _$ListOverviewBlocStateImpl({required this.state, required this.lists});
 
+  @override
+  final ListOverviewState state;
   @override
   final Iterable<ListModel> lists;
 
   @override
   String toString() {
-    return 'ListOverviewBlocState(lists: $lists)';
+    return 'ListOverviewBlocState(state: $state, lists: $lists)';
   }
 
   @override
@@ -110,12 +123,13 @@ class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListOverviewBlocStateImpl &&
+            (identical(other.state, state) || other.state == state) &&
             const DeepCollectionEquality().equals(other.lists, lists));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(lists));
+  int get hashCode => Object.hash(
+      runtimeType, state, const DeepCollectionEquality().hash(lists));
 
   @JsonKey(ignore: true)
   @override
@@ -127,8 +141,11 @@ class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
 
 abstract class _ListOverviewBlocState implements ListOverviewBlocState {
   const factory _ListOverviewBlocState(
-      {required final Iterable<ListModel> lists}) = _$ListOverviewBlocStateImpl;
+      {required final ListOverviewState state,
+      required final Iterable<ListModel> lists}) = _$ListOverviewBlocStateImpl;
 
+  @override
+  ListOverviewState get state;
   @override
   Iterable<ListModel> get lists;
   @override

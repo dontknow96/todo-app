@@ -7,6 +7,7 @@ import 'package:todo/bloc/list_overview/list_overview_bloc_state.dart';
 import 'package:todo/model/list_model.dart';
 import 'package:todo/repository/list_repository.dart';
 
+import '../widgets/create_list_widget.dart';
 import '../widgets/list_element.dart';
 
 class DashboardView extends StatelessWidget {
@@ -21,7 +22,8 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ListOverviewBloc(
-          const ListOverviewBlocState(lists: <ListModel>[]),
+          const ListOverviewBlocState(
+              lists: <ListModel>[], state: ListOverviewState.none),
           GetIt.I.get<ListRepository>()),
       child: Scaffold(
         appBar: AppBar(
@@ -41,7 +43,10 @@ class DashboardView extends StatelessWidget {
                       list: list,
                       onIconClick: () => goToList(list.id),
                       iconData: Icons.open_in_full,
-                    )
+                    ),
+                  CreateListWidget(
+                    listOverviewBloc: listOverviewBloc,
+                  ),
                 ],
               ),
             );

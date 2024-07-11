@@ -19,32 +19,38 @@ mixin _$ListOverviewBlocEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() refresh,
+    required TResult Function(String title, String description) createList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? refresh,
+    TResult? Function(String title, String description)? createList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? refresh,
+    TResult Function(String title, String description)? createList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Refresh value) refresh,
+    required TResult Function(CreateList value) createList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Refresh value)? refresh,
+    TResult? Function(CreateList value)? createList,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Refresh value)? refresh,
+    TResult Function(CreateList value)? createList,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -108,6 +114,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() refresh,
+    required TResult Function(String title, String description) createList,
   }) {
     return refresh();
   }
@@ -116,6 +123,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? refresh,
+    TResult? Function(String title, String description)? createList,
   }) {
     return refresh?.call();
   }
@@ -124,6 +132,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? refresh,
+    TResult Function(String title, String description)? createList,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -136,6 +145,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Refresh value) refresh,
+    required TResult Function(CreateList value) createList,
   }) {
     return refresh(this);
   }
@@ -144,6 +154,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Refresh value)? refresh,
+    TResult? Function(CreateList value)? createList,
   }) {
     return refresh?.call(this);
   }
@@ -152,6 +163,7 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Refresh value)? refresh,
+    TResult Function(CreateList value)? createList,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -163,4 +175,148 @@ class _$RefreshImpl implements Refresh {
 
 abstract class Refresh implements ListOverviewBlocEvent {
   const factory Refresh() = _$RefreshImpl;
+}
+
+/// @nodoc
+abstract class _$$CreateListImplCopyWith<$Res> {
+  factory _$$CreateListImplCopyWith(
+          _$CreateListImpl value, $Res Function(_$CreateListImpl) then) =
+      __$$CreateListImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String title, String description});
+}
+
+/// @nodoc
+class __$$CreateListImplCopyWithImpl<$Res>
+    extends _$ListOverviewBlocEventCopyWithImpl<$Res, _$CreateListImpl>
+    implements _$$CreateListImplCopyWith<$Res> {
+  __$$CreateListImplCopyWithImpl(
+      _$CreateListImpl _value, $Res Function(_$CreateListImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? title = null,
+    Object? description = null,
+  }) {
+    return _then(_$CreateListImpl(
+      null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreateListImpl implements CreateList {
+  const _$CreateListImpl(this.title, this.description);
+
+  @override
+  final String title;
+  @override
+  final String description;
+
+  @override
+  String toString() {
+    return 'ListOverviewBlocEvent.createList(title: $title, description: $description)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateListImpl &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, title, description);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateListImplCopyWith<_$CreateListImpl> get copyWith =>
+      __$$CreateListImplCopyWithImpl<_$CreateListImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() refresh,
+    required TResult Function(String title, String description) createList,
+  }) {
+    return createList(title, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? refresh,
+    TResult? Function(String title, String description)? createList,
+  }) {
+    return createList?.call(title, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? refresh,
+    TResult Function(String title, String description)? createList,
+    required TResult orElse(),
+  }) {
+    if (createList != null) {
+      return createList(title, description);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Refresh value) refresh,
+    required TResult Function(CreateList value) createList,
+  }) {
+    return createList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Refresh value)? refresh,
+    TResult? Function(CreateList value)? createList,
+  }) {
+    return createList?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Refresh value)? refresh,
+    TResult Function(CreateList value)? createList,
+    required TResult orElse(),
+  }) {
+    if (createList != null) {
+      return createList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CreateList implements ListOverviewBlocEvent {
+  const factory CreateList(final String title, final String description) =
+      _$CreateListImpl;
+
+  String get title;
+  String get description;
+  @JsonKey(ignore: true)
+  _$$CreateListImplCopyWith<_$CreateListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -36,6 +36,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
           state: ListState.none));
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 
   Future<void> _editList(EditList event, Emitter<ListBlocState> emit) async {}
@@ -49,6 +50,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       emit(state.copyWith(state: ListState.deleted));
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 
   Future<void> _createItem(
@@ -62,6 +64,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       add(const ListBlocEvent.refresh());
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 
   Future<void> _deleteItem(
@@ -74,6 +77,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       add(const ListBlocEvent.refresh());
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 
   Future<void> _editItem(EditItem event, Emitter<ListBlocState> emit) async {}
@@ -89,6 +93,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       add(const ListBlocEvent.refresh());
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 
   Future<void> _deleteComment(
@@ -107,5 +112,6 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       emit(newState);
       return;
     }
+    emit(state.copyWith(state: ListState.none));
   }
 }

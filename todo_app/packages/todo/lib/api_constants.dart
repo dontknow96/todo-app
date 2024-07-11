@@ -4,11 +4,13 @@ class ApiConstants{
 
   //list endpoints
   static const allLists = 'list/all';
+  static const createList = 'list/new';
   static const deleteList = 'list/';
   static const getList = 'list/';
 
   //item endpoints
   static const createItem = 'item/new';
+  static const editItem = 'item/';
   static const deleteItem = 'item/';
 
   //comment endpoints
