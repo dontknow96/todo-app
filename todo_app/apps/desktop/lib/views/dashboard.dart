@@ -48,6 +48,7 @@ class DashboardView extends StatelessWidget {
                   if (state.state == ListOverviewState.loading)
                     const CircularProgressIndicator(),
                   Expanded(child: Container()),
+                  Text(userBloc.state.username),
                   GestureDetector(
                     onTap: () {
                       userBloc.add(const UserBlocEvent.logout());

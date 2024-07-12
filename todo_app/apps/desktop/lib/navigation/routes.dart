@@ -60,6 +60,7 @@ class TodoRouterConfigDesktop {
 
   static GoRouter createRouter() => GoRouter(
         routes: routes(),
+        initialLocation: login,
         redirect: (context, state) async {
           final userBloc = context.read<UserBloc>();
 
