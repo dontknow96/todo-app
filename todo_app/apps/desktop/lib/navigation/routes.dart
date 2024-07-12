@@ -66,7 +66,11 @@ class TodoRouterConfigDesktop {
           userBloc.add(const UserBlocEvent.refresh());
 
           if (!await GetIt.I.get<UserRepository>().isLoggedIn()) {
-            return login;
+            if (!(state.topRoute?.path == login ||
+                state.topRoute?.path == home ||
+                state.topRoute?.path == register)) {
+              return login;
+            }
           } else {
             if (state.topRoute?.path == login ||
                 state.topRoute?.path == home ||
