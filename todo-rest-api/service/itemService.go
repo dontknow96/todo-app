@@ -24,7 +24,8 @@ func InsertItem(context fiber.Ctx) error {
 
 	//retrieve request Data
 	params := itemParameter{}
-
+	body := string(context.Body())
+	print(body)
 	err := json.Unmarshal(context.Body(), &params)
 	if err != nil {
 		_ = context.SendStatus(http.StatusBadRequest)

@@ -11,7 +11,7 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
   final UserRepository userRepository;
 
   Future<void> _login(Login event, Emitter<LoginBlocState> emit) async {
-    emit(state.copyWith(
-        response: await userRepository.login(event.username, event.password)));
+    final result = await userRepository.login(event.username, event.password);
+    emit(state.copyWith(response: result));
   }
 }

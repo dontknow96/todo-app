@@ -1,6 +1,6 @@
-class ApiConstants{
-   // static String baseUrl = '127.0.0.1:8080';
-  static String baseUrl = '10.0.2.2:8080';
+class ApiConstants {
+  static String baseUrl = const String.fromEnvironment('TODO_API_URL',
+      defaultValue: '127.0.0.1:8080'); //default is emulator localhost relay
 
   //list endpoints
   static const allLists = 'list/all';
@@ -20,5 +20,4 @@ class ApiConstants{
   //permission endpoints
   static const createPermission = 'permission';
   static const deletePermission = 'permission';
-
 }

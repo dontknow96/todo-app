@@ -2,9 +2,11 @@ import 'package:desktop/views/dashboard.dart';
 import 'package:desktop/views/list.dart';
 import 'package:desktop/views/register.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:user/bloc/user/user_bloc.dart';
 import 'package:user/bloc/user/user_bloc_event.dart';
+import 'package:user/repository/user_repository.dart';
 
 import '../views/login.dart';
 
@@ -56,12 +58,12 @@ class TodoRouterConfigDesktop {
 
   static GoRouter createRouter() => GoRouter(
         routes: routes(),
-        redirect: (context, state) {
+        redirect: (context, state) async {
           final userBloc = context.read<UserBloc>();
 
           userBloc.add(const UserBlocEvent.refresh());
 
-          if (!userBloc.state.loggedIn) {
+          if (!await GetIt.I.get<UserRepository>().isLoggedIn()) {
             return login;
           } else {
             if (state.topRoute?.path == login ||

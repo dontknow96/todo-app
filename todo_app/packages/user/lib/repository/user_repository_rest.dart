@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user/api_constants.dart';
 import 'package:user/model/user_model.dart';
 import 'package:user/repository/user_repository.dart';
@@ -11,7 +12,6 @@ class UserRepositoryRest implements UserRepository {
   UserRepositoryRest(this.endpoint);
 
   final String endpoint;
-  final storage = const FlutterSecureStorage();
 
   @override
   Future<void> delete(String username, String password) {
@@ -46,12 +46,12 @@ class UserRepositoryRest implements UserRepository {
           body["validUntil"] * 1000,
           isUtc: true);
 
-      await storage.write(
-          key: StorageConstants.usernameStorageKey, value: username);
-      await storage.write(key: StorageConstants.jwtStorageKey, value: token);
-      await storage.write(
-          key: StorageConstants.jwtExpirationStorageKey,
-          value: expiration.toString());
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString(StorageConstants.usernameStorageKey, username);
+      await prefs.setString(StorageConstants.jwtStorageKey, token);
+      await prefs.setString(
+          StorageConstants.jwtExpirationStorageKey, expiration.toString());
 
       return LoginResponse.success;
     }
@@ -86,12 +86,12 @@ class UserRepositoryRest implements UserRepository {
           body["validUntil"] * 1000,
           isUtc: true);
 
-      await storage.write(
-          key: StorageConstants.usernameStorageKey, value: username);
-      await storage.write(key: StorageConstants.jwtStorageKey, value: token);
-      await storage.write(
-          key: StorageConstants.jwtExpirationStorageKey,
-          value: expiration.toString());
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString(StorageConstants.usernameStorageKey, username);
+      await prefs.setString(StorageConstants.jwtStorageKey, token);
+      await prefs.setString(
+          StorageConstants.jwtExpirationStorageKey, expiration.toString());
 
       return RegisterResponse.success;
     }
@@ -101,15 +101,15 @@ class UserRepositoryRest implements UserRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    if (!await storage.containsKey(key: StorageConstants.jwtStorageKey) ||
-        !await storage.containsKey(
-            key: StorageConstants.jwtExpirationStorageKey)) {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString(StorageConstants.jwtStorageKey) == null ||
+        prefs.getString(StorageConstants.jwtExpirationStorageKey) == null) {
       return false;
     }
 
     final expiration = DateTime.parse(
-        await storage.read(key: StorageConstants.jwtExpirationStorageKey) ??
-            "");
+        prefs.getString(StorageConstants.jwtExpirationStorageKey) ?? "");
 
     if (DateTime.now().isAfter(expiration)) {
       return false;
@@ -120,8 +120,8 @@ class UserRepositoryRest implements UserRepository {
 
   @override
   Future<String> getUsernameOfLoggedIn() async {
-    final username =
-        await storage.read(key: StorageConstants.usernameStorageKey);
-    return username ?? "";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString(StorageConstants.usernameStorageKey) ?? "";
   }
 }

@@ -50,3 +50,6 @@ services:
     build:
       context: ./todo_app
       dockerfile: ./Dockerfiles/Dockerfile_build_web
+      args:
+        - TODO_API_URL=127.0.0.1:8080
+        - USER_API_URL=127.0.0.1:8080

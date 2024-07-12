@@ -1,11 +1,14 @@
 FROM growerp/flutter-sdk-image:3.22.2 AS build
 
+ARG TODO_API_URL
+ARG USER_API_URL
+
 COPY --chmod=0777 . .
 
 WORKDIR ./apps/desktop
 
 RUN flutter pub get
-RUN flutter build web
+RUN flutter build web --dart-define=TODO_API_URL=${TODO_API_URL} --dart-define=USER_API_URL=${USER_API_URL}
 
 FROM nginx as serve
 COPY --from=build --chmod=0777 /home/mobiledevops/app/apps/desktop/build/web /usr/share/nginx/html
