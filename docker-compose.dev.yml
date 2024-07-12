@@ -1,0 +1,46 @@
+volumes:
+  data:
+services:
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./docker_init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+      start_period: 1s
+  todo-rest-api:
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: ./todo-rest-api
+      dockerfile: ./Dockerfile
+    environment:
+      # server setting
+      - Name=127.0.0.1
+      - HttpPort=8080
+      # app settings
+      - PasswordCost=10
+      - JwtSecret=dev_secret
+      - JwtExpiration=1209600 #value in seconds(14 days)
+      # db settings
+      - DbUser=root
+      - DbPassword=root
+      - DbHost=db:3306
+      - DbDatabaseName=todo
+      - DbConnMaxLifetime=60
+      - DbMaxOpenConnections=10
+      - DbMaxIdleConnections=10

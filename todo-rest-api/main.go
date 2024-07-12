@@ -38,7 +38,7 @@ func main() {
 
 	config.SetUpRouting(app)
 
-	if err := app.Listen(fmt.Sprintf("%s:%d", setting.ServerSetting.Name, setting.ServerSetting.HttpPort), *setting.FiberListenConfig); err != nil {
+	if err := app.Listen(fmt.Sprintf(":%d", setting.ServerSetting.HttpPort), *setting.FiberListenConfig); err != nil {
 		fmt.Println(err)
 	}
 }
