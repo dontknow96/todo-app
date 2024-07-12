@@ -37,6 +37,8 @@ class ListRepositoryRest implements ListRepository {
       final body = jsonDecode(response.body);
       var retVal = <ListModel>[];
 
+      if (body == null) return (retVal, ApiResponse.success);
+
       for (final list in body) {
         retVal.add(ListModel.fromJson(list));
       }

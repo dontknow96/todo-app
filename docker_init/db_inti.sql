@@ -32,14 +32,9 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `fk_authorid_comment` (`authorid`),
   CONSTRAINT `fk_authorid_comment` FOREIGN KEY (`authorid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_itemid` FOREIGN KEY (`itemid`) REFERENCES `item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Exportiere Daten aus Tabelle todo.comment: ~3 rows (ungefähr)
-DELETE FROM `comment`;
-INSERT INTO `comment` (`id`, `itemid`, `authorid`, `text`, `time`) VALUES
-	(24, 31, 22, 'asdasd', '2024-07-11 21:44:35'),
-	(25, 32, 23, 'ssa', '2024-07-12 00:48:50'),
-	(26, 32, 22, 'asaas', '2024-07-12 00:48:52');
+-- Daten-Export vom Benutzer nicht ausgewählt
 
 -- Exportiere Struktur von Tabelle todo.item
 CREATE TABLE IF NOT EXISTS `item` (
@@ -56,16 +51,9 @@ CREATE TABLE IF NOT EXISTS `item` (
   KEY `fk_authorid_item` (`authorid`),
   CONSTRAINT `fk_authorid_item` FOREIGN KEY (`authorid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_listid` FOREIGN KEY (`listid`) REFERENCES `list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Exportiere Daten aus Tabelle todo.item: ~5 rows (ungefähr)
-DELETE FROM `item`;
-INSERT INTO `item` (`id`, `listid`, `authorid`, `title`, `description`, `due`, `done`) VALUES
-	(27, 15, 22, 't', 't', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-	(29, 12, 22, 'et', 'es', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-	(30, 12, 22, 'timmy', 'peter', '0000-00-00 00:00:00', '2024-07-11 20:55:28'),
-	(31, 3, 22, 'item', 'desc', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-	(32, 1, 22, 't', 't', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+-- Daten-Export vom Benutzer nicht ausgewählt
 
 -- Exportiere Struktur von Tabelle todo.list
 CREATE TABLE IF NOT EXISTS `list` (
@@ -73,22 +61,14 @@ CREATE TABLE IF NOT EXISTS `list` (
   `ownerid` int(11) NOT NULL,
   `title` tinytext NOT NULL,
   `description` text NOT NULL,
+  `category` tinytext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `fk_ownerid` (`ownerid`),
   CONSTRAINT `fk_ownerid` FOREIGN KEY (`ownerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Exportiere Daten aus Tabelle todo.list: ~7 rows (ungefähr)
-DELETE FROM `list`;
-INSERT INTO `list` (`id`, `ownerid`, `title`, `description`) VALUES
-	(1, 22, 'diese ', 'newdesc'),
-	(3, 22, 'wat', 'desc'),
-	(8, 23, '8', 'desc'),
-	(9, 23, '9', 'desc'),
-	(11, 24, '11', 'no'),
-	(12, 22, '3', 'desc'),
-	(15, 22, 'test', 'test');
+-- Daten-Export vom Benutzer nicht ausgewählt
 
 -- Exportiere Struktur von Tabelle todo.permission
 CREATE TABLE IF NOT EXISTS `permission` (
@@ -101,11 +81,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   CONSTRAINT `fk_userid_permission` FOREIGN KEY (`userid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Exportiere Daten aus Tabelle todo.permission: ~1 rows (ungefähr)
-DELETE FROM `permission`;
-INSERT INTO `permission` (`listid`, `userid`) VALUES
-	(1, 22),
-	(1, 24);
+-- Daten-Export vom Benutzer nicht ausgewählt
 
 -- Exportiere Struktur von Tabelle todo.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -117,12 +93,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Exportiere Daten aus Tabelle todo.users: ~2 rows (ungefähr)
-DELETE FROM `users`;
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
-	(22, 'peter', '$2a$10$f1xRNrmE08NaT/OnQYdn5erDSVMKPj/i2iWOvTO80stphRe1o1Keq'),
-	(23, 'peters', '$2a$10$5.aXBvYjg2S8a8O1UAMIqOy84utbtbLucmW5myndSw4w0ISkE1fu6'),
-	(24, 'petersens', '$2a$10$wdbOc64ZiOOS3190kZEbP.Z9/U4E1hhmqUkTlSieMJ6XZV2LbVAoy');
+-- Daten-Export vom Benutzer nicht ausgewählt
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
