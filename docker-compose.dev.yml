@@ -44,3 +44,9 @@ services:
       - DbConnMaxLifetime=60
       - DbMaxOpenConnections=10
       - DbMaxIdleConnections=10
+  todo-rest-frontend:
+    ports:
+      - "1337:80"
+    build:
+      context: ./todo_app
+      dockerfile: ./Dockerfiles/Dockerfile_build_web
