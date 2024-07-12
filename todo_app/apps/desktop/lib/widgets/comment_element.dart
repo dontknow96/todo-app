@@ -4,6 +4,7 @@ import 'package:todo/bloc/list/list_bloc.dart';
 import 'package:todo/bloc/list/list_bloc_event.dart';
 import 'package:todo/bloc/list/list_bloc_state.dart';
 import 'package:todo/model/comment_model.dart';
+import 'package:user/bloc/user/user_bloc.dart';
 
 class CommentElement extends StatelessWidget {
   const CommentElement({
@@ -18,6 +19,9 @@ class CommentElement extends StatelessWidget {
     return BlocBuilder<ListBloc, ListBlocState>(
       builder: (BuildContext context, state) {
         final listBloc = context.read<ListBloc>();
+        final userBloc = context.read<UserBloc>();
+
+        final isAuthor = userBloc.state.username == comment.author;
 
         return Column(
           children: [
@@ -26,7 +30,9 @@ class CommentElement extends StatelessWidget {
                 Text(comment.author),
                 Expanded(child: Container()),
                 Text(comment.time.toString()),
+                if(isAuthor)
                 Expanded(child: Container()),
+                if(isAuthor)
                 GestureDetector(
                   onTap: () => listBloc.add(ListBlocEvent.deleteComment(comment.id)),
                   child: const Icon(

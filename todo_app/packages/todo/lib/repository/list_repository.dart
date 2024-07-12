@@ -1,5 +1,6 @@
 import 'package:todo/model/comment_model.dart';
 import 'package:todo/model/list_model.dart';
+import 'package:todo/model/permission_model.dart';
 
 import '../model/item_model.dart';
 
@@ -13,7 +14,8 @@ abstract class ListRepository {
       (
         (
           ListModel list,
-          Map<int, (ItemModel item, Map<int, CommentModel> comments)> items
+        Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
+  Map<int, PermissionModel> permissions
         )? list,
         ApiResponse response
       )> getList(int id);
@@ -49,4 +51,9 @@ abstract class ListRepository {
   Future<ApiResponse> insertComment(int itemId, String text);
 
   Future<ApiResponse> deleteComment(int commentId);
+
+  //permission endpoints
+  Future<ApiResponse> insertPermission(int listId, String username);
+
+  Future<ApiResponse> deletePermission(int listId, String username);
 }

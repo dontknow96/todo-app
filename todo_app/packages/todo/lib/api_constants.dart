@@ -17,4 +17,8 @@ class ApiConstants{
   static const createComment = 'comment/new';
   static const deleteComment = 'comment/';
 
+  //permission endpoints
+  static const createPermission = 'permission';
+  static const deletePermission = 'permission';
+
 }

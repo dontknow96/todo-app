@@ -121,17 +121,17 @@ func (todo *Todo) Setup() error {
 	}
 
 	//create prepared statements for permission
-	todo.getCommentStatement, err = todo.dbHandle.Prepare("SELECT users.id, users.username FROM permission JOIN users ON permission.userid = users.id WHERE permission.listid = ?")
+	todo.getPermissionStatement, err = todo.dbHandle.Prepare("SELECT users.id, users.username FROM permission JOIN users ON permission.userid = users.id WHERE permission.listid = ?")
 	if err != nil {
 		return err
 	}
 
-	todo.insertCommentStatement, err = todo.dbHandle.Prepare("INSERT INTO permission(listid,userid) SELECT ?,? FROM list WHERE list.ownerid = ? AND list.id = ?")
+	todo.insertPermissionStatement, err = todo.dbHandle.Prepare("INSERT INTO permission(listid,userid) SELECT ?,(SELECT users.id FROM users WHERE users.username = ?) FROM list WHERE list.ownerid = ? AND list.id = ?")
 	if err != nil {
 		return err
 	}
 
-	todo.deleteCommentStatement, err = todo.dbHandle.Prepare("DELETE permission FROM permission LEFT JOIN list ON permission.listid = list.id WHERE list.id = ? AND list.ownerid = ? AND permission.userid = ?")
+	todo.deletePermissionStatement, err = todo.dbHandle.Prepare("DELETE permission FROM permission LEFT JOIN list ON permission.listid = list.id WHERE list.id = ? AND list.ownerid = ? AND permission.userid = (SELECT users.id FROM users WHERE users.username = ?)")
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (todo *Todo) GetList(id int, requesterId int) (model.List, error) {
 	}
 
 	//retrieve permissions
-	result, err = todo.getItemStatement.Query(id)
+	result, err = todo.getPermissionStatement.Query(id)
 	if err != nil {
 		return model.List{}, err
 	}
@@ -355,28 +355,28 @@ func (todo *Todo) DeleteComment(id int, authorid int) (bool, error) {
 }
 
 // PermissionData funcitons
-func (todo *Todo) InsertPermission(listid int, userid int, ownerid int) (int64, error) {
-	result, err := todo.insertPermissionStatement.Exec(listid, userid, ownerid, listid)
+func (todo *Todo) InsertPermission(listid int, username string, ownerid int) (int64, error) {
+	result, err := todo.insertPermissionStatement.Exec(listid, username, ownerid, listid)
 	if err != nil {
 		log.Error(err)
 		return -1, err
 	}
 
-	id, err := result.LastInsertId()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		log.Error(err)
-		return id, err
+		return rowsAffected, err
 	}
-	if id == 0 {
+	if rowsAffected == 0 {
 		log.Error(err)
-		return id, errors.New("failed to create")
+		return rowsAffected, errors.New("failed to create")
 	}
 
-	return id, err
+	return rowsAffected, err
 }
 
-func (todo *Todo) DeletePermission(listId int, ownerId int, userId int) (bool, error) {
-	result, err := todo.deletePermissionStatement.Exec(listId, ownerId, userId)
+func (todo *Todo) DeletePermission(listId int, ownerId int, username string) (bool, error) {
+	result, err := todo.deletePermissionStatement.Exec(listId, ownerId, username)
 	if err != nil {
 		log.Error(err)
 		return false, err

@@ -27,4 +27,8 @@ class ListBlocEvent with _$ListBlocEvent {
   const factory ListBlocEvent.createComment(int itemId, String text) = CreateComment;
   const factory ListBlocEvent.deleteComment(int id) = DeleteComment;
 
+  //permission changing events
+  const factory ListBlocEvent.createPermission(int listId, String username) = CreatePermission;
+  const factory ListBlocEvent.deletePermission(int listId, String username) = DeletePermission;
+
 }

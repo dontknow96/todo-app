@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:helper/helper.dart';
 import 'package:todo/model/list_model.dart';
+import 'package:todo/model/permission_model.dart';
 import 'package:user/storage_constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -79,7 +80,8 @@ class ListRepositoryRest implements ListRepository {
       (
         (
           ListModel list,
-          Map<int, (ItemModel item, Map<int, CommentModel> comments)> items
+          Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
+          Map<int, PermissionModel> permissions
         )? list,
         ApiResponse response
       )> getList(int id) async {
@@ -100,14 +102,14 @@ class ListRepositoryRest implements ListRepository {
       final bodyObject = jsonDecode(response.body);
       final list = (
         ListModel.fromJson(bodyObject["data"]),
-        <int, (ItemModel item, Map<int, CommentModel> comments)>{}
+        <int, (ItemModel item, Map<int, CommentModel> comments)>{},
+        <int, PermissionModel>{}
       );
 
-      final items = bodyObject["items"];
-      if (items == null) {
-        return (list, ApiResponse.success);
-      }
+      final items = bodyObject["items"] ?? [];
+      final permissions = bodyObject["permissions"] ?? [];
 
+      //add items to return
       for (final itemObject in items) {
         final item =
             (ItemModel.fromJson(itemObject["itemdata"]), <int, CommentModel>{});
@@ -122,6 +124,12 @@ class ListRepositoryRest implements ListRepository {
           final commentModel = CommentModel.fromJson(comment);
           item.$2[commentModel.id] = commentModel;
         }
+      }
+
+      //add permissions to return
+      for (final permission in permissions) {
+        final permissionModel = PermissionModel.fromJson(permission);
+        list.$3[permissionModel.userid] = permissionModel;
       }
 
       return (list, ApiResponse.success);
@@ -285,6 +293,64 @@ class ListRepositoryRest implements ListRepository {
           description: description,
           due: (due ?? Helper.dateTimeNullReplacement).toUtc(),
           done: (done ?? Helper.dateTimeNullReplacement).toUtc(),
+        ),
+      ),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> deletePermission(int listId, String username) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.delete(
+      Uri.http(endpoint, ApiConstants.deletePermission),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(
+        PermissionModel(
+          listid: listId,
+          username: username,
+          userid: 0,
+        ),
+      ),
+    );
+
+    if (response.statusCode == 400) {
+      return ApiResponse.unauthorized;
+    }
+    if (response.statusCode == 200) {
+      return ApiResponse.success;
+    }
+
+    return ApiResponse.unknownError;
+  }
+
+  @override
+  Future<ApiResponse> insertPermission(int listId, String username) async {
+    final token = await storage.read(key: StorageConstants.jwtStorageKey) ?? "";
+
+    final response = await http.post(
+      Uri.http(endpoint, ApiConstants.createPermission),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "bearer $token",
+      },
+      body: jsonEncode(
+        PermissionModel(
+          listid: listId,
+          username: username,
+          userid: 0,
         ),
       ),
     );

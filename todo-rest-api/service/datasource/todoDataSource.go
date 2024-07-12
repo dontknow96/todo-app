@@ -25,4 +25,8 @@ type TodoDataSource interface {
 	//comment
 	InsertComment(itemId int, authorid int, description string, time time.Time) (int64, error)
 	DeleteComment(id int, authorid int) (bool, error)
+
+	//comment
+	InsertPermission(listid int, username string, ownerid int) (int64, error)
+	DeletePermission(listId int, ownerId int, username string) (bool, error)
 }

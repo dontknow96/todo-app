@@ -21,6 +21,10 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
     on<CreateComment>(_createComment);
     on<DeleteComment>(_deleteComment);
 
+    //permission changing events
+    on<CreatePermission>(_createPermission);
+    on<DeletePermission>(_deletePermission);
+
     add(const ListBlocEvent.refresh());
   }
 
@@ -33,6 +37,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       emit(state.copyWith(
           list: response.$1!.$1,
           items: response.$1!.$2,
+          permissions: response.$1!.$3,
           state: ListState.none));
       return;
     }
@@ -97,7 +102,7 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       CreateComment event, Emitter<ListBlocState> emit) async {
     emit(state.copyWith(state: ListState.loading));
     final response =
-        await listRepository.insertComment(event.itemId, event.text);
+    await listRepository.insertComment(event.itemId, event.text);
 
     if (response == ApiResponse.success) {
       emit(state.copyWith(state: ListState.none));
@@ -121,6 +126,34 @@ class ListBloc extends Bloc<ListBlocEvent, ListBlocState> {
       }
 
       emit(newState);
+      return;
+    }
+    emit(state.copyWith(state: ListState.none));
+  }
+
+  Future<void> _createPermission(
+      CreatePermission event, Emitter<ListBlocState> emit) async {
+    emit(state.copyWith(state: ListState.loading));
+    final response =
+    await listRepository.insertPermission(event.listId, event.username);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListState.none));
+      add(const ListBlocEvent.refresh());
+      return;
+    }
+    emit(state.copyWith(state: ListState.none));
+  }
+
+  Future<void> _deletePermission(
+      DeletePermission event, Emitter<ListBlocState> emit) async {
+    emit(state.copyWith(state: ListState.loading));
+
+    final response = await listRepository.deletePermission(event.listId, event.username);
+
+    if (response == ApiResponse.success) {
+      emit(state.copyWith(state: ListState.none));
+      add(const ListBlocEvent.refresh());
       return;
     }
     emit(state.copyWith(state: ListState.none));

@@ -1,4 +1,5 @@
 import 'package:desktop/widgets/item_element.dart';
+import 'package:desktop/widgets/permissions_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -35,6 +36,7 @@ class TodoListView extends StatelessWidget {
                 title: "",
                 description: ""),
             items: {},
+            permissions: {},
           ),
           GetIt.I.get<ListRepository>()),
       child: BlocBuilder<ListBloc, ListBlocState>(
@@ -78,6 +80,13 @@ class TodoListView extends StatelessWidget {
                             .add(ListBlocEvent.deleteList(state.list.id))
                         : null,
                     iconData: isOwner ? Icons.delete_forever : null,
+                    additionalContent: [
+                      if(isOwner)
+                      PermissionsElement(
+                          listId: listId,
+                          permissions: state.permissions.values,
+                        )
+                    ],
                   ),
                   for (final item in state.items.entries)
                     ItemElement(

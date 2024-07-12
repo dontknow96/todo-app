@@ -30,6 +30,8 @@ mixin _$ListBlocEvent {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -46,6 +48,8 @@ mixin _$ListBlocEvent {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +66,8 @@ mixin _$ListBlocEvent {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +81,8 @@ mixin _$ListBlocEvent {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -87,6 +95,8 @@ mixin _$ListBlocEvent {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -99,6 +109,8 @@ mixin _$ListBlocEvent {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -172,6 +184,8 @@ class _$RefreshImpl implements Refresh {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return refresh();
   }
@@ -191,6 +205,8 @@ class _$RefreshImpl implements Refresh {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return refresh?.call();
   }
@@ -210,6 +226,8 @@ class _$RefreshImpl implements Refresh {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -229,6 +247,8 @@ class _$RefreshImpl implements Refresh {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return refresh(this);
   }
@@ -244,6 +264,8 @@ class _$RefreshImpl implements Refresh {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return refresh?.call(this);
   }
@@ -259,6 +281,8 @@ class _$RefreshImpl implements Refresh {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -348,6 +372,8 @@ class _$DeleteListImpl implements DeleteList {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return deleteList(id);
   }
@@ -367,6 +393,8 @@ class _$DeleteListImpl implements DeleteList {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return deleteList?.call(id);
   }
@@ -386,6 +414,8 @@ class _$DeleteListImpl implements DeleteList {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteList != null) {
@@ -405,6 +435,8 @@ class _$DeleteListImpl implements DeleteList {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return deleteList(this);
   }
@@ -420,6 +452,8 @@ class _$DeleteListImpl implements DeleteList {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return deleteList?.call(this);
   }
@@ -435,6 +469,8 @@ class _$DeleteListImpl implements DeleteList {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteList != null) {
@@ -538,6 +574,8 @@ class _$EditListImpl implements EditList {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return editList(title, description);
   }
@@ -557,6 +595,8 @@ class _$EditListImpl implements EditList {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return editList?.call(title, description);
   }
@@ -576,6 +616,8 @@ class _$EditListImpl implements EditList {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (editList != null) {
@@ -595,6 +637,8 @@ class _$EditListImpl implements EditList {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return editList(this);
   }
@@ -610,6 +654,8 @@ class _$EditListImpl implements EditList {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return editList?.call(this);
   }
@@ -625,6 +671,8 @@ class _$EditListImpl implements EditList {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (editList != null) {
@@ -746,6 +794,8 @@ class _$CreateItemImpl implements CreateItem {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return createItem(listId, title, description, due);
   }
@@ -765,6 +815,8 @@ class _$CreateItemImpl implements CreateItem {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return createItem?.call(listId, title, description, due);
   }
@@ -784,6 +836,8 @@ class _$CreateItemImpl implements CreateItem {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (createItem != null) {
@@ -803,6 +857,8 @@ class _$CreateItemImpl implements CreateItem {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return createItem(this);
   }
@@ -818,6 +874,8 @@ class _$CreateItemImpl implements CreateItem {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return createItem?.call(this);
   }
@@ -833,6 +891,8 @@ class _$CreateItemImpl implements CreateItem {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (createItem != null) {
@@ -931,6 +991,8 @@ class _$DeleteItemImpl implements DeleteItem {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return deleteItem(id);
   }
@@ -950,6 +1012,8 @@ class _$DeleteItemImpl implements DeleteItem {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return deleteItem?.call(id);
   }
@@ -969,6 +1033,8 @@ class _$DeleteItemImpl implements DeleteItem {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteItem != null) {
@@ -988,6 +1054,8 @@ class _$DeleteItemImpl implements DeleteItem {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return deleteItem(this);
   }
@@ -1003,6 +1071,8 @@ class _$DeleteItemImpl implements DeleteItem {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return deleteItem?.call(this);
   }
@@ -1018,6 +1088,8 @@ class _$DeleteItemImpl implements DeleteItem {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteItem != null) {
@@ -1152,6 +1224,8 @@ class _$EditItemImpl implements EditItem {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return editItem(id, title, description, due, done);
   }
@@ -1171,6 +1245,8 @@ class _$EditItemImpl implements EditItem {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return editItem?.call(id, title, description, due, done);
   }
@@ -1190,6 +1266,8 @@ class _$EditItemImpl implements EditItem {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (editItem != null) {
@@ -1209,6 +1287,8 @@ class _$EditItemImpl implements EditItem {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return editItem(this);
   }
@@ -1224,6 +1304,8 @@ class _$EditItemImpl implements EditItem {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return editItem?.call(this);
   }
@@ -1239,6 +1321,8 @@ class _$EditItemImpl implements EditItem {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (editItem != null) {
@@ -1350,6 +1434,8 @@ class _$CreateCommentImpl implements CreateComment {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return createComment(itemId, text);
   }
@@ -1369,6 +1455,8 @@ class _$CreateCommentImpl implements CreateComment {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return createComment?.call(itemId, text);
   }
@@ -1388,6 +1476,8 @@ class _$CreateCommentImpl implements CreateComment {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (createComment != null) {
@@ -1407,6 +1497,8 @@ class _$CreateCommentImpl implements CreateComment {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return createComment(this);
   }
@@ -1422,6 +1514,8 @@ class _$CreateCommentImpl implements CreateComment {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return createComment?.call(this);
   }
@@ -1437,6 +1531,8 @@ class _$CreateCommentImpl implements CreateComment {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (createComment != null) {
@@ -1533,6 +1629,8 @@ class _$DeleteCommentImpl implements DeleteComment {
         editItem,
     required TResult Function(int itemId, String text) createComment,
     required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
   }) {
     return deleteComment(id);
   }
@@ -1552,6 +1650,8 @@ class _$DeleteCommentImpl implements DeleteComment {
         editItem,
     TResult? Function(int itemId, String text)? createComment,
     TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
   }) {
     return deleteComment?.call(id);
   }
@@ -1571,6 +1671,8 @@ class _$DeleteCommentImpl implements DeleteComment {
         editItem,
     TResult Function(int itemId, String text)? createComment,
     TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteComment != null) {
@@ -1590,6 +1692,8 @@ class _$DeleteCommentImpl implements DeleteComment {
     required TResult Function(EditItem value) editItem,
     required TResult Function(CreateComment value) createComment,
     required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
   }) {
     return deleteComment(this);
   }
@@ -1605,6 +1709,8 @@ class _$DeleteCommentImpl implements DeleteComment {
     TResult? Function(EditItem value)? editItem,
     TResult? Function(CreateComment value)? createComment,
     TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
   }) {
     return deleteComment?.call(this);
   }
@@ -1620,6 +1726,8 @@ class _$DeleteCommentImpl implements DeleteComment {
     TResult Function(EditItem value)? editItem,
     TResult Function(CreateComment value)? createComment,
     TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
     required TResult orElse(),
   }) {
     if (deleteComment != null) {
@@ -1635,5 +1743,415 @@ abstract class DeleteComment implements ListBlocEvent {
   int get id;
   @JsonKey(ignore: true)
   _$$DeleteCommentImplCopyWith<_$DeleteCommentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreatePermissionImplCopyWith<$Res> {
+  factory _$$CreatePermissionImplCopyWith(_$CreatePermissionImpl value,
+          $Res Function(_$CreatePermissionImpl) then) =
+      __$$CreatePermissionImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int listId, String username});
+}
+
+/// @nodoc
+class __$$CreatePermissionImplCopyWithImpl<$Res>
+    extends _$ListBlocEventCopyWithImpl<$Res, _$CreatePermissionImpl>
+    implements _$$CreatePermissionImplCopyWith<$Res> {
+  __$$CreatePermissionImplCopyWithImpl(_$CreatePermissionImpl _value,
+      $Res Function(_$CreatePermissionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? listId = null,
+    Object? username = null,
+  }) {
+    return _then(_$CreatePermissionImpl(
+      null == listId
+          ? _value.listId
+          : listId // ignore: cast_nullable_to_non_nullable
+              as int,
+      null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreatePermissionImpl implements CreatePermission {
+  const _$CreatePermissionImpl(this.listId, this.username);
+
+  @override
+  final int listId;
+  @override
+  final String username;
+
+  @override
+  String toString() {
+    return 'ListBlocEvent.createPermission(listId: $listId, username: $username)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreatePermissionImpl &&
+            (identical(other.listId, listId) || other.listId == listId) &&
+            (identical(other.username, username) ||
+                other.username == username));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, listId, username);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreatePermissionImplCopyWith<_$CreatePermissionImpl> get copyWith =>
+      __$$CreatePermissionImplCopyWithImpl<_$CreatePermissionImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() refresh,
+    required TResult Function(int id) deleteList,
+    required TResult Function(String title, String description) editList,
+    required TResult Function(
+            int listId, String title, String description, DateTime? due)
+        createItem,
+    required TResult Function(int id) deleteItem,
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
+        editItem,
+    required TResult Function(int itemId, String text) createComment,
+    required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
+  }) {
+    return createPermission(listId, username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? refresh,
+    TResult? Function(int id)? deleteList,
+    TResult? Function(String title, String description)? editList,
+    TResult? Function(
+            int listId, String title, String description, DateTime? due)?
+        createItem,
+    TResult? Function(int id)? deleteItem,
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
+        editItem,
+    TResult? Function(int itemId, String text)? createComment,
+    TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
+  }) {
+    return createPermission?.call(listId, username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? refresh,
+    TResult Function(int id)? deleteList,
+    TResult Function(String title, String description)? editList,
+    TResult Function(
+            int listId, String title, String description, DateTime? due)?
+        createItem,
+    TResult Function(int id)? deleteItem,
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
+        editItem,
+    TResult Function(int itemId, String text)? createComment,
+    TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
+    required TResult orElse(),
+  }) {
+    if (createPermission != null) {
+      return createPermission(listId, username);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Refresh value) refresh,
+    required TResult Function(DeleteList value) deleteList,
+    required TResult Function(EditList value) editList,
+    required TResult Function(CreateItem value) createItem,
+    required TResult Function(DeleteItem value) deleteItem,
+    required TResult Function(EditItem value) editItem,
+    required TResult Function(CreateComment value) createComment,
+    required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
+  }) {
+    return createPermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Refresh value)? refresh,
+    TResult? Function(DeleteList value)? deleteList,
+    TResult? Function(EditList value)? editList,
+    TResult? Function(CreateItem value)? createItem,
+    TResult? Function(DeleteItem value)? deleteItem,
+    TResult? Function(EditItem value)? editItem,
+    TResult? Function(CreateComment value)? createComment,
+    TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
+  }) {
+    return createPermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Refresh value)? refresh,
+    TResult Function(DeleteList value)? deleteList,
+    TResult Function(EditList value)? editList,
+    TResult Function(CreateItem value)? createItem,
+    TResult Function(DeleteItem value)? deleteItem,
+    TResult Function(EditItem value)? editItem,
+    TResult Function(CreateComment value)? createComment,
+    TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
+    required TResult orElse(),
+  }) {
+    if (createPermission != null) {
+      return createPermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CreatePermission implements ListBlocEvent {
+  const factory CreatePermission(final int listId, final String username) =
+      _$CreatePermissionImpl;
+
+  int get listId;
+  String get username;
+  @JsonKey(ignore: true)
+  _$$CreatePermissionImplCopyWith<_$CreatePermissionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DeletePermissionImplCopyWith<$Res> {
+  factory _$$DeletePermissionImplCopyWith(_$DeletePermissionImpl value,
+          $Res Function(_$DeletePermissionImpl) then) =
+      __$$DeletePermissionImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int listId, String username});
+}
+
+/// @nodoc
+class __$$DeletePermissionImplCopyWithImpl<$Res>
+    extends _$ListBlocEventCopyWithImpl<$Res, _$DeletePermissionImpl>
+    implements _$$DeletePermissionImplCopyWith<$Res> {
+  __$$DeletePermissionImplCopyWithImpl(_$DeletePermissionImpl _value,
+      $Res Function(_$DeletePermissionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? listId = null,
+    Object? username = null,
+  }) {
+    return _then(_$DeletePermissionImpl(
+      null == listId
+          ? _value.listId
+          : listId // ignore: cast_nullable_to_non_nullable
+              as int,
+      null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DeletePermissionImpl implements DeletePermission {
+  const _$DeletePermissionImpl(this.listId, this.username);
+
+  @override
+  final int listId;
+  @override
+  final String username;
+
+  @override
+  String toString() {
+    return 'ListBlocEvent.deletePermission(listId: $listId, username: $username)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeletePermissionImpl &&
+            (identical(other.listId, listId) || other.listId == listId) &&
+            (identical(other.username, username) ||
+                other.username == username));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, listId, username);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeletePermissionImplCopyWith<_$DeletePermissionImpl> get copyWith =>
+      __$$DeletePermissionImplCopyWithImpl<_$DeletePermissionImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() refresh,
+    required TResult Function(int id) deleteList,
+    required TResult Function(String title, String description) editList,
+    required TResult Function(
+            int listId, String title, String description, DateTime? due)
+        createItem,
+    required TResult Function(int id) deleteItem,
+    required TResult Function(int id, String title, String description,
+            DateTime? due, DateTime? done)
+        editItem,
+    required TResult Function(int itemId, String text) createComment,
+    required TResult Function(int id) deleteComment,
+    required TResult Function(int listId, String username) createPermission,
+    required TResult Function(int listId, String username) deletePermission,
+  }) {
+    return deletePermission(listId, username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? refresh,
+    TResult? Function(int id)? deleteList,
+    TResult? Function(String title, String description)? editList,
+    TResult? Function(
+            int listId, String title, String description, DateTime? due)?
+        createItem,
+    TResult? Function(int id)? deleteItem,
+    TResult? Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
+        editItem,
+    TResult? Function(int itemId, String text)? createComment,
+    TResult? Function(int id)? deleteComment,
+    TResult? Function(int listId, String username)? createPermission,
+    TResult? Function(int listId, String username)? deletePermission,
+  }) {
+    return deletePermission?.call(listId, username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? refresh,
+    TResult Function(int id)? deleteList,
+    TResult Function(String title, String description)? editList,
+    TResult Function(
+            int listId, String title, String description, DateTime? due)?
+        createItem,
+    TResult Function(int id)? deleteItem,
+    TResult Function(int id, String title, String description, DateTime? due,
+            DateTime? done)?
+        editItem,
+    TResult Function(int itemId, String text)? createComment,
+    TResult Function(int id)? deleteComment,
+    TResult Function(int listId, String username)? createPermission,
+    TResult Function(int listId, String username)? deletePermission,
+    required TResult orElse(),
+  }) {
+    if (deletePermission != null) {
+      return deletePermission(listId, username);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Refresh value) refresh,
+    required TResult Function(DeleteList value) deleteList,
+    required TResult Function(EditList value) editList,
+    required TResult Function(CreateItem value) createItem,
+    required TResult Function(DeleteItem value) deleteItem,
+    required TResult Function(EditItem value) editItem,
+    required TResult Function(CreateComment value) createComment,
+    required TResult Function(DeleteComment value) deleteComment,
+    required TResult Function(CreatePermission value) createPermission,
+    required TResult Function(DeletePermission value) deletePermission,
+  }) {
+    return deletePermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Refresh value)? refresh,
+    TResult? Function(DeleteList value)? deleteList,
+    TResult? Function(EditList value)? editList,
+    TResult? Function(CreateItem value)? createItem,
+    TResult? Function(DeleteItem value)? deleteItem,
+    TResult? Function(EditItem value)? editItem,
+    TResult? Function(CreateComment value)? createComment,
+    TResult? Function(DeleteComment value)? deleteComment,
+    TResult? Function(CreatePermission value)? createPermission,
+    TResult? Function(DeletePermission value)? deletePermission,
+  }) {
+    return deletePermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Refresh value)? refresh,
+    TResult Function(DeleteList value)? deleteList,
+    TResult Function(EditList value)? editList,
+    TResult Function(CreateItem value)? createItem,
+    TResult Function(DeleteItem value)? deleteItem,
+    TResult Function(EditItem value)? editItem,
+    TResult Function(CreateComment value)? createComment,
+    TResult Function(DeleteComment value)? deleteComment,
+    TResult Function(CreatePermission value)? createPermission,
+    TResult Function(DeletePermission value)? deletePermission,
+    required TResult orElse(),
+  }) {
+    if (deletePermission != null) {
+      return deletePermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeletePermission implements ListBlocEvent {
+  const factory DeletePermission(final int listId, final String username) =
+      _$DeletePermissionImpl;
+
+  int get listId;
+  String get username;
+  @JsonKey(ignore: true)
+  _$$DeletePermissionImplCopyWith<_$DeletePermissionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

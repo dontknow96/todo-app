@@ -8,4 +8,5 @@ abstract class UserRepository{
   Future<void> edit(String username, String password);
   Future<void> logout();
   Future<bool> isLoggedIn();
+  Future<String> getUsernameOfLoggedIn();
 }

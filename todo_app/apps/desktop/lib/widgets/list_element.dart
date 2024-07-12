@@ -6,11 +6,13 @@ class ListElement extends StatelessWidget {
       {super.key,
       required this.list,
       required this.onIconClick,
-      required this.iconData});
+      required this.iconData,
+      required this.additionalContent});
 
   final ListModel list;
   final Function()? onIconClick;
   final IconData? iconData;
+  final Iterable<Widget> additionalContent;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class ListElement extends StatelessWidget {
       children: <Widget>[
         ListTile(title: Text('Owner ${list.ownerusername}')),
         ListTile(title: Text(list.description)),
+        for (final widget in additionalContent) widget,
       ],
     );
   }

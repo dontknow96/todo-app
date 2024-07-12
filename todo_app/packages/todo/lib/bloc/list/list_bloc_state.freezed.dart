@@ -20,6 +20,8 @@ mixin _$ListBlocState {
   ListModel get list => throw _privateConstructorUsedError;
   Map<int, (ItemModel, Map<int, CommentModel>)> get items =>
       throw _privateConstructorUsedError;
+  Map<int, PermissionModel> get permissions =>
+      throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,6 +39,7 @@ abstract class $ListBlocStateCopyWith<$Res> {
       {ListState state,
       ListModel list,
       Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      Map<int, PermissionModel> permissions,
       String? error});
 
   $ListModelCopyWith<$Res> get list;
@@ -58,6 +61,7 @@ class _$ListBlocStateCopyWithImpl<$Res, $Val extends ListBlocState>
     Object? state = null,
     Object? list = null,
     Object? items = null,
+    Object? permissions = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -73,6 +77,10 @@ class _$ListBlocStateCopyWithImpl<$Res, $Val extends ListBlocState>
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as Map<int, (ItemModel, Map<int, CommentModel>)>,
+      permissions: null == permissions
+          ? _value.permissions
+          : permissions // ignore: cast_nullable_to_non_nullable
+              as Map<int, PermissionModel>,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -101,6 +109,7 @@ abstract class _$$ListBlocStateImplCopyWith<$Res>
       {ListState state,
       ListModel list,
       Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      Map<int, PermissionModel> permissions,
       String? error});
 
   @override
@@ -121,6 +130,7 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
     Object? state = null,
     Object? list = null,
     Object? items = null,
+    Object? permissions = null,
     Object? error = freezed,
   }) {
     return _then(_$ListBlocStateImpl(
@@ -136,6 +146,10 @@ class __$$ListBlocStateImplCopyWithImpl<$Res>
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
               as Map<int, (ItemModel, Map<int, CommentModel>)>,
+      permissions: null == permissions
+          ? _value._permissions
+          : permissions // ignore: cast_nullable_to_non_nullable
+              as Map<int, PermissionModel>,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -151,8 +165,10 @@ class _$ListBlocStateImpl implements _ListBlocState {
       {required this.state,
       required this.list,
       required final Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      required final Map<int, PermissionModel> permissions,
       this.error})
-      : _items = items;
+      : _items = items,
+        _permissions = permissions;
 
   @override
   final ListState state;
@@ -166,12 +182,20 @@ class _$ListBlocStateImpl implements _ListBlocState {
     return EqualUnmodifiableMapView(_items);
   }
 
+  final Map<int, PermissionModel> _permissions;
+  @override
+  Map<int, PermissionModel> get permissions {
+    if (_permissions is EqualUnmodifiableMapView) return _permissions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_permissions);
+  }
+
   @override
   final String? error;
 
   @override
   String toString() {
-    return 'ListBlocState(state: $state, list: $list, items: $items, error: $error)';
+    return 'ListBlocState(state: $state, list: $list, items: $items, permissions: $permissions, error: $error)';
   }
 
   @override
@@ -182,12 +206,19 @@ class _$ListBlocStateImpl implements _ListBlocState {
             (identical(other.state, state) || other.state == state) &&
             (identical(other.list, list) || other.list == list) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality()
+                .equals(other._permissions, _permissions) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, state, list,
-      const DeepCollectionEquality().hash(_items), error);
+  int get hashCode => Object.hash(
+      runtimeType,
+      state,
+      list,
+      const DeepCollectionEquality().hash(_items),
+      const DeepCollectionEquality().hash(_permissions),
+      error);
 
   @JsonKey(ignore: true)
   @override
@@ -201,6 +232,7 @@ abstract class _ListBlocState implements ListBlocState {
       {required final ListState state,
       required final ListModel list,
       required final Map<int, (ItemModel, Map<int, CommentModel>)> items,
+      required final Map<int, PermissionModel> permissions,
       final String? error}) = _$ListBlocStateImpl;
 
   @override
@@ -209,6 +241,8 @@ abstract class _ListBlocState implements ListBlocState {
   ListModel get list;
   @override
   Map<int, (ItemModel, Map<int, CommentModel>)> get items;
+  @override
+  Map<int, PermissionModel> get permissions;
   @override
   String? get error;
   @override

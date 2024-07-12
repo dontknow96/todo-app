@@ -42,10 +42,16 @@ class UserRepositoryRest implements UserRepository {
       final body = jsonDecode(response.body);
 
       final token = body["token"].toString();
-      final expiration = DateTime.fromMillisecondsSinceEpoch(body["validUntil"] * 1000, isUtc: true);
+      final expiration = DateTime.fromMillisecondsSinceEpoch(
+          body["validUntil"] * 1000,
+          isUtc: true);
 
+      await storage.write(
+          key: StorageConstants.usernameStorageKey, value: username);
       await storage.write(key: StorageConstants.jwtStorageKey, value: token);
-      await storage.write(key: StorageConstants.jwtExpirationStorageKey, value: expiration.toString());
+      await storage.write(
+          key: StorageConstants.jwtExpirationStorageKey,
+          value: expiration.toString());
 
       return LoginResponse.success;
     }
@@ -76,10 +82,16 @@ class UserRepositoryRest implements UserRepository {
       final body = jsonDecode(response.body);
 
       final token = body["token"].toString();
-      final expiration = DateTime.fromMillisecondsSinceEpoch(body["validUntil"] * 1000, isUtc: true);
+      final expiration = DateTime.fromMillisecondsSinceEpoch(
+          body["validUntil"] * 1000,
+          isUtc: true);
 
+      await storage.write(
+          key: StorageConstants.usernameStorageKey, value: username);
       await storage.write(key: StorageConstants.jwtStorageKey, value: token);
-      await storage.write(key: StorageConstants.jwtExpirationStorageKey, value: expiration.toString());
+      await storage.write(
+          key: StorageConstants.jwtExpirationStorageKey,
+          value: expiration.toString());
 
       return RegisterResponse.success;
     }
@@ -88,18 +100,28 @@ class UserRepositoryRest implements UserRepository {
   }
 
   @override
-  Future<bool> isLoggedIn() async{
-    if( ! await storage.containsKey(key: StorageConstants.jwtStorageKey) || await storage.containsKey(key: StorageConstants.jwtExpirationStorageKey)){
+  Future<bool> isLoggedIn() async {
+    if (!await storage.containsKey(key: StorageConstants.jwtStorageKey) ||
+        !await storage.containsKey(
+            key: StorageConstants.jwtExpirationStorageKey)) {
       return false;
     }
 
-    final expiration = DateTime.parse(await storage.read(key: StorageConstants.jwtExpirationStorageKey)??"");
+    final expiration = DateTime.parse(
+        await storage.read(key: StorageConstants.jwtExpirationStorageKey) ??
+            "");
 
-    if(DateTime.now().isAfter(expiration)){
+    if (DateTime.now().isAfter(expiration)) {
       return false;
     }
-
 
     return true;
+  }
+
+  @override
+  Future<String> getUsernameOfLoggedIn() async {
+    final username =
+        await storage.read(key: StorageConstants.usernameStorageKey);
+    return username ?? "";
   }
 }

@@ -43,6 +43,7 @@ class DashboardView extends StatelessWidget {
                       list: list,
                       onIconClick: () => goToList(list.id),
                       iconData: Icons.open_in_full,
+                      additionalContent: const [],
                     ),
                   CreateListWidget(
                     listOverviewBloc: listOverviewBloc,
