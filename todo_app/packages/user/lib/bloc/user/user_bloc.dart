@@ -22,6 +22,7 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
   }
 
   Future<void> _logout(Logout event, Emitter<UserBlocState> emit) async {
-    emit(state.copyWith());
+    await userRepository.logout();
+    emit(state.copyWith(username: "", loggedIn: false));
   }
 }

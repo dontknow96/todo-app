@@ -60,9 +60,10 @@ class UserRepositoryRest implements UserRepository {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.clear();
   }
 
   @override

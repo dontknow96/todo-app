@@ -6,6 +6,8 @@ import 'package:todo/bloc/list_overview/list_overview_bloc_event.dart';
 import 'package:todo/bloc/list_overview/list_overview_bloc_state.dart';
 import 'package:todo/model/list_model.dart';
 import 'package:todo/repository/list_repository.dart';
+import 'package:user/bloc/user/user_bloc.dart';
+import 'package:user/bloc/user/user_bloc_event.dart';
 
 import '../widgets/create_list_widget.dart';
 import '../widgets/list_element.dart';
@@ -14,12 +16,16 @@ class DashboardView extends StatelessWidget {
   const DashboardView({
     super.key,
     required this.goToList,
+    required this.onLogout,
   });
 
   final void Function(int id) goToList;
+  final void Function() onLogout;
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = context.read<UserBloc>();
+
     return BlocProvider(
       create: (_) => ListOverviewBloc(
           const ListOverviewBlocState(
@@ -27,7 +33,22 @@ class DashboardView extends StatelessWidget {
           GetIt.I.get<ListRepository>()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("dashboard"),
+          title: Row(
+            children: [
+              const Text("dashboard"),
+              Expanded(child: Container()),
+              GestureDetector(
+                onTap: () {
+                  userBloc.add(const UserBlocEvent.logout());
+                  Future.delayed(Duration.zero, onLogout);
+                },
+                child: const Icon(
+                  Icons.logout,
+                  size: 24.0,
+                ),
+              ),
+            ],
+          ),
         ),
         body: BlocBuilder<ListOverviewBloc, ListOverviewBlocState>(
           builder: (BuildContext context, ListOverviewBlocState state) {

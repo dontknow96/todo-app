@@ -22,8 +22,10 @@ class TodoRouterConfigDesktop {
         GoRoute(
           path: dashboard,
           builder: (context, __) => DashboardView(
-              goToList: (id) => GoRouter.of(context)
-                  .go('$listUnparametered${id.toString()}')),
+            goToList: (id) =>
+                GoRouter.of(context).go('$listUnparametered${id.toString()}'),
+            onLogout: () => GoRouter.of(context).go(login),
+          ),
         ),
         GoRoute(
           path: list,
