@@ -1,9 +1,14 @@
 FROM growerp/flutter-sdk-image:3.22.2 AS base
 
+ARG TODO_API_URL=
+ARG USER_API_URL=
+
 COPY --chmod=0777 . .
 
+WORKDIR ./apps/desktop
+
 RUN flutter pub get
-RUN flutter build apk --split-per-abi
+RUN flutter build apk --split-per-abi --dart-define=TODO_API_URL=${TODO_API_URL} --dart-define=USER_API_URL=${USER_API_URL}
 
 FROM scratch AS export
-COPY --from=base ./home/mobiledevops/app/build/app/outputs ./build/android
+COPY --from=base /home/mobiledevops/app/apps/desktop/build/app/outputs ./build/android
