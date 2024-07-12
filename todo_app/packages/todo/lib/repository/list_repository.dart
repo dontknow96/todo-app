@@ -14,8 +14,8 @@ abstract class ListRepository {
       (
         (
           ListModel list,
-        Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
-  Map<int, PermissionModel> permissions
+          Map<int, (ItemModel item, Map<int, CommentModel> comments)> items,
+          Map<int, PermissionModel> permissions
         )? list,
         ApiResponse response
       )> getList(int id);
@@ -25,12 +25,14 @@ abstract class ListRepository {
   Future<ApiResponse> insertList(
     String title,
     String description,
+    String category,
   );
 
   Future<ApiResponse> editList(
     int id,
     String title,
     String description,
+    String category,
   );
 
   //item endpoints

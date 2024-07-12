@@ -12,6 +12,7 @@ class ListModel with _$ListModel{
     required String ownerusername,
     required String title,
     required String description,
+    required String category,
   }) = _ListModel;
 
   factory ListModel.fromJson(Map<String, dynamic> json) => _$ListModelFromJson(json);

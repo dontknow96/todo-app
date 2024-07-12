@@ -11,6 +11,7 @@ class CreateListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
+    final categoryController = TextEditingController();
 
     return ExpansionTile(
       controlAffinity: ListTileControlAffinity.leading,
@@ -30,10 +31,18 @@ class CreateListWidget extends StatelessWidget {
             hintText: 'description',
           ),
         ),
+        TextField(
+          controller: categoryController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'category',
+          ),
+        ),
         MaterialButton(
           onPressed: () async => listOverviewBloc.add(
               ListOverviewBlocEvent.createList(titleController.value.text,
-                  descriptionController.value.text)),
+                  descriptionController.value.text,
+                  categoryController.value.text,)),
           child: const Text("create List"),
         ),
       ],

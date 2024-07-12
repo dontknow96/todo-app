@@ -58,17 +58,17 @@ func (todo *Todo) Setup() error {
 	}
 
 	//create prepared statements for list
-	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE list.id = ? AND (list.ownerid = ? OR permission.userid = ? )")
+	todo.getListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description, list.category  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE list.id = ? AND (list.ownerid = ? OR permission.userid = ? )")
 	if err != nil {
 		return err
 	}
 
-	todo.getAllListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE (list.ownerid = ? OR permission.userid = ? )")
+	todo.getAllListStatement, err = todo.dbHandle.Prepare("SELECT list.id, list.ownerid, users.username, list.title, list.description, list.category  FROM list JOIN users ON list.ownerid = users.id LEFT JOIN permission ON permission.listid = list.id WHERE (list.ownerid = ? OR permission.userid = ? )")
 	if err != nil {
 		return err
 	}
 
-	todo.insertListStatement, err = todo.dbHandle.Prepare("INSERT INTO list(ownerid,title,description) VALUES (?,?,?)")
+	todo.insertListStatement, err = todo.dbHandle.Prepare("INSERT INTO list(ownerid,title,description,category) VALUES (?,?,?,?)")
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func (todo *Todo) Setup() error {
 		return err
 	}
 
-	todo.editListStatement, err = todo.dbHandle.Prepare("UPDATE list SET title = ?, description = ? WHERE id = ?")
+	todo.editListStatement, err = todo.dbHandle.Prepare("UPDATE list SET title = ?, description = ?, category = ? WHERE id = ? AND ownerid = ?")
 	if err != nil {
 		return err
 	}
@@ -238,8 +238,8 @@ func (todo *Todo) GetAllLists(requesterId int) ([]model.ListData, error) {
 }
 
 // List functions
-func (todo *Todo) InsertList(ownerid int, title string, description string) (int64, error) {
-	result, err := todo.insertListStatement.Exec(ownerid, title, description)
+func (todo *Todo) InsertList(ownerid int, title string, description string, category string) (int64, error) {
+	result, err := todo.insertListStatement.Exec(ownerid, title, description, category)
 	if err != nil {
 		log.Error(err)
 		return -1, err
@@ -269,8 +269,8 @@ func (todo *Todo) DeleteList(id int, ownerId int) (bool, error) {
 	return rowsAffected == 1, err
 }
 
-func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription string) (bool, error) {
-	result, err := todo.editListStatement.Exec(newTitle, newDescription, id, ownerId)
+func (todo *Todo) EditList(id int, ownerId int, newTitle string, newDescription string, newCategory string) (bool, error) {
+	result, err := todo.editListStatement.Exec(newTitle, newDescription, newCategory, id, ownerId)
 	if err != nil {
 		log.Error(err)
 		return false, err

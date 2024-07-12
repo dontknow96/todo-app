@@ -13,9 +13,9 @@ type TodoDataSource interface {
 	//list
 	GetList(id int, requesterId int) (model.List, error)
 	GetAllLists(requesterId int) ([]model.ListData, error)
-	InsertList(ownerid int, title string, description string) (int64, error)
+	InsertList(ownerid int, title string, description string, category string) (int64, error)
 	DeleteList(id int, ownerId int) (bool, error)
-	EditList(id int, ownerId int, newTitle string, newDescription string) (bool, error)
+	EditList(id int, ownerId int, newTitle string, newDescription string, newCategory string) (bool, error)
 
 	//item
 	InsertItem(listId int, authorid int, title string, description string, due time.Time) (int64, error)

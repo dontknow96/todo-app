@@ -33,7 +33,8 @@ class ListElement extends StatelessWidget {
         ],
       ),
       children: <Widget>[
-        ListTile(title: Text('Owner ${list.ownerusername}')),
+        ListTile(title: Text('Owner: ${list.ownerusername}')),
+        ListTile(title: Text('Category: ${list.category}')),
         ListTile(title: Text(list.description)),
         for (final widget in additionalContent) widget,
       ],

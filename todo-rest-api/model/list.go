@@ -6,6 +6,7 @@ type ListData struct {
 	OwnerUsername string `json:"ownerusername"`
 	Title         string `json:"title"`
 	Description   string `json:"description"`
+	Category      string `json:"category"`
 }
 
 type List struct {

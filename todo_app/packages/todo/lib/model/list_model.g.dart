@@ -13,6 +13,7 @@ _$ListModelImpl _$$ListModelImplFromJson(Map<String, dynamic> json) =>
       ownerusername: json['ownerusername'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
+      category: json['category'] as String,
     );
 
 Map<String, dynamic> _$$ListModelImplToJson(_$ListModelImpl instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$ListModelImplToJson(_$ListModelImpl instance) =>
       'ownerusername': instance.ownerusername,
       'title': instance.title,
       'description': instance.description,
+      'category': instance.category,
     };

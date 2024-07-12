@@ -29,37 +29,64 @@ class DashboardView extends StatelessWidget {
     return BlocProvider(
       create: (_) => ListOverviewBloc(
           const ListOverviewBlocState(
-              lists: <ListModel>[], state: ListOverviewState.none),
+              lists: <ListModel>[],
+              state: ListOverviewState.none,
+              categorys: [],
+              slectedCategory: '',
+              visibleLists: []),
           GetIt.I.get<ListRepository>()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              const Text("dashboard"),
-              Expanded(child: Container()),
-              GestureDetector(
-                onTap: () {
-                  userBloc.add(const UserBlocEvent.logout());
-                  Future.delayed(Duration.zero, onLogout);
-                },
-                child: const Icon(
-                  Icons.logout,
-                  size: 24.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: BlocBuilder<ListOverviewBloc, ListOverviewBlocState>(
-          builder: (BuildContext context, ListOverviewBlocState state) {
-            final listOverviewBloc = context.read<ListOverviewBloc>();
+      child: BlocBuilder<ListOverviewBloc, ListOverviewBlocState>(
+        builder: (BuildContext context, ListOverviewBlocState state) {
+          final listOverviewBloc = context.read<ListOverviewBloc>();
 
-            return RefreshIndicator(
+          return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  const Text("dashboard"),
+                  Expanded(child: Container()),
+                  if (state.state == ListOverviewState.loading)
+                    const CircularProgressIndicator(),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    onTap: () {
+                      userBloc.add(const UserBlocEvent.logout());
+                      Future.delayed(Duration.zero, onLogout);
+                    },
+                    child: const Icon(
+                      Icons.logout,
+                      size: 24.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            body: RefreshIndicator(
               onRefresh: () async =>
                   listOverviewBloc.add(const ListOverviewBlocEvent.refresh()),
               child: ListView(
                 children: [
-                  for (final list in state.lists)
+                  Row(
+                    children: [
+                      MaterialButton(
+                        color:
+                            state.slectedCategory == "" ? Colors.white54 : null,
+                        onPressed: () => listOverviewBloc.add(
+                            const ListOverviewBlocEvent.selectCategory("")),
+                        child: const Text("All Categorys"),
+                      ),
+                      for (final category in state.categorys)
+                        MaterialButton(
+                          color: state.slectedCategory == category
+                              ? Colors.white54
+                              : null,
+                          onPressed: () => listOverviewBloc.add(
+                              ListOverviewBlocEvent.selectCategory(category)),
+                          child: Text(category),
+                        ),
+                    ],
+                  ),
+                  for (final list in state.visibleLists)
                     ListElement(
                       list: list,
                       onIconClick: () => goToList(list.id),
@@ -71,9 +98,9 @@ class DashboardView extends StatelessWidget {
                   ),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

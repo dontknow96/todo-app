@@ -19,19 +19,25 @@ mixin _$ListOverviewBlocEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() refresh,
-    required TResult Function(String title, String description) createList,
+    required TResult Function(String title, String description, String category)
+        createList,
+    required TResult Function(String category) selectCategory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? refresh,
-    TResult? Function(String title, String description)? createList,
+    TResult? Function(String title, String description, String category)?
+        createList,
+    TResult? Function(String category)? selectCategory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? refresh,
-    TResult Function(String title, String description)? createList,
+    TResult Function(String title, String description, String category)?
+        createList,
+    TResult Function(String category)? selectCategory,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +45,21 @@ mixin _$ListOverviewBlocEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(Refresh value) refresh,
     required TResult Function(CreateList value) createList,
+    required TResult Function(SelectCategory value) selectCategory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Refresh value)? refresh,
     TResult? Function(CreateList value)? createList,
+    TResult? Function(SelectCategory value)? selectCategory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Refresh value)? refresh,
     TResult Function(CreateList value)? createList,
+    TResult Function(SelectCategory value)? selectCategory,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,7 +123,9 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() refresh,
-    required TResult Function(String title, String description) createList,
+    required TResult Function(String title, String description, String category)
+        createList,
+    required TResult Function(String category) selectCategory,
   }) {
     return refresh();
   }
@@ -123,7 +134,9 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? refresh,
-    TResult? Function(String title, String description)? createList,
+    TResult? Function(String title, String description, String category)?
+        createList,
+    TResult? Function(String category)? selectCategory,
   }) {
     return refresh?.call();
   }
@@ -132,7 +145,9 @@ class _$RefreshImpl implements Refresh {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? refresh,
-    TResult Function(String title, String description)? createList,
+    TResult Function(String title, String description, String category)?
+        createList,
+    TResult Function(String category)? selectCategory,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -146,6 +161,7 @@ class _$RefreshImpl implements Refresh {
   TResult map<TResult extends Object?>({
     required TResult Function(Refresh value) refresh,
     required TResult Function(CreateList value) createList,
+    required TResult Function(SelectCategory value) selectCategory,
   }) {
     return refresh(this);
   }
@@ -155,6 +171,7 @@ class _$RefreshImpl implements Refresh {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Refresh value)? refresh,
     TResult? Function(CreateList value)? createList,
+    TResult? Function(SelectCategory value)? selectCategory,
   }) {
     return refresh?.call(this);
   }
@@ -164,6 +181,7 @@ class _$RefreshImpl implements Refresh {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Refresh value)? refresh,
     TResult Function(CreateList value)? createList,
+    TResult Function(SelectCategory value)? selectCategory,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -183,7 +201,7 @@ abstract class _$$CreateListImplCopyWith<$Res> {
           _$CreateListImpl value, $Res Function(_$CreateListImpl) then) =
       __$$CreateListImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String title, String description});
+  $Res call({String title, String description, String category});
 }
 
 /// @nodoc
@@ -199,6 +217,7 @@ class __$$CreateListImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? description = null,
+    Object? category = null,
   }) {
     return _then(_$CreateListImpl(
       null == title
@@ -209,6 +228,10 @@ class __$$CreateListImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -216,16 +239,18 @@ class __$$CreateListImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreateListImpl implements CreateList {
-  const _$CreateListImpl(this.title, this.description);
+  const _$CreateListImpl(this.title, this.description, this.category);
 
   @override
   final String title;
   @override
   final String description;
+  @override
+  final String category;
 
   @override
   String toString() {
-    return 'ListOverviewBlocEvent.createList(title: $title, description: $description)';
+    return 'ListOverviewBlocEvent.createList(title: $title, description: $description, category: $category)';
   }
 
   @override
@@ -235,11 +260,13 @@ class _$CreateListImpl implements CreateList {
             other is _$CreateListImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, description);
+  int get hashCode => Object.hash(runtimeType, title, description, category);
 
   @JsonKey(ignore: true)
   @override
@@ -251,29 +278,35 @@ class _$CreateListImpl implements CreateList {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() refresh,
-    required TResult Function(String title, String description) createList,
+    required TResult Function(String title, String description, String category)
+        createList,
+    required TResult Function(String category) selectCategory,
   }) {
-    return createList(title, description);
+    return createList(title, description, category);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? refresh,
-    TResult? Function(String title, String description)? createList,
+    TResult? Function(String title, String description, String category)?
+        createList,
+    TResult? Function(String category)? selectCategory,
   }) {
-    return createList?.call(title, description);
+    return createList?.call(title, description, category);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? refresh,
-    TResult Function(String title, String description)? createList,
+    TResult Function(String title, String description, String category)?
+        createList,
+    TResult Function(String category)? selectCategory,
     required TResult orElse(),
   }) {
     if (createList != null) {
-      return createList(title, description);
+      return createList(title, description, category);
     }
     return orElse();
   }
@@ -283,6 +316,7 @@ class _$CreateListImpl implements CreateList {
   TResult map<TResult extends Object?>({
     required TResult Function(Refresh value) refresh,
     required TResult Function(CreateList value) createList,
+    required TResult Function(SelectCategory value) selectCategory,
   }) {
     return createList(this);
   }
@@ -292,6 +326,7 @@ class _$CreateListImpl implements CreateList {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Refresh value)? refresh,
     TResult? Function(CreateList value)? createList,
+    TResult? Function(SelectCategory value)? selectCategory,
   }) {
     return createList?.call(this);
   }
@@ -301,6 +336,7 @@ class _$CreateListImpl implements CreateList {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Refresh value)? refresh,
     TResult Function(CreateList value)? createList,
+    TResult Function(SelectCategory value)? selectCategory,
     required TResult orElse(),
   }) {
     if (createList != null) {
@@ -311,12 +347,158 @@ class _$CreateListImpl implements CreateList {
 }
 
 abstract class CreateList implements ListOverviewBlocEvent {
-  const factory CreateList(final String title, final String description) =
+  const factory CreateList(
+          final String title, final String description, final String category) =
       _$CreateListImpl;
 
   String get title;
   String get description;
+  String get category;
   @JsonKey(ignore: true)
   _$$CreateListImplCopyWith<_$CreateListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SelectCategoryImplCopyWith<$Res> {
+  factory _$$SelectCategoryImplCopyWith(_$SelectCategoryImpl value,
+          $Res Function(_$SelectCategoryImpl) then) =
+      __$$SelectCategoryImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String category});
+}
+
+/// @nodoc
+class __$$SelectCategoryImplCopyWithImpl<$Res>
+    extends _$ListOverviewBlocEventCopyWithImpl<$Res, _$SelectCategoryImpl>
+    implements _$$SelectCategoryImplCopyWith<$Res> {
+  __$$SelectCategoryImplCopyWithImpl(
+      _$SelectCategoryImpl _value, $Res Function(_$SelectCategoryImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? category = null,
+  }) {
+    return _then(_$SelectCategoryImpl(
+      null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectCategoryImpl implements SelectCategory {
+  const _$SelectCategoryImpl(this.category);
+
+  @override
+  final String category;
+
+  @override
+  String toString() {
+    return 'ListOverviewBlocEvent.selectCategory(category: $category)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectCategoryImpl &&
+            (identical(other.category, category) ||
+                other.category == category));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, category);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectCategoryImplCopyWith<_$SelectCategoryImpl> get copyWith =>
+      __$$SelectCategoryImplCopyWithImpl<_$SelectCategoryImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() refresh,
+    required TResult Function(String title, String description, String category)
+        createList,
+    required TResult Function(String category) selectCategory,
+  }) {
+    return selectCategory(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? refresh,
+    TResult? Function(String title, String description, String category)?
+        createList,
+    TResult? Function(String category)? selectCategory,
+  }) {
+    return selectCategory?.call(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? refresh,
+    TResult Function(String title, String description, String category)?
+        createList,
+    TResult Function(String category)? selectCategory,
+    required TResult orElse(),
+  }) {
+    if (selectCategory != null) {
+      return selectCategory(category);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Refresh value) refresh,
+    required TResult Function(CreateList value) createList,
+    required TResult Function(SelectCategory value) selectCategory,
+  }) {
+    return selectCategory(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Refresh value)? refresh,
+    TResult? Function(CreateList value)? createList,
+    TResult? Function(SelectCategory value)? selectCategory,
+  }) {
+    return selectCategory?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Refresh value)? refresh,
+    TResult Function(CreateList value)? createList,
+    TResult Function(SelectCategory value)? selectCategory,
+    required TResult orElse(),
+  }) {
+    if (selectCategory != null) {
+      return selectCategory(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SelectCategory implements ListOverviewBlocEvent {
+  const factory SelectCategory(final String category) = _$SelectCategoryImpl;
+
+  String get category;
+  @JsonKey(ignore: true)
+  _$$SelectCategoryImplCopyWith<_$SelectCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

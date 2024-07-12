@@ -16,7 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ListOverviewBlocState {
+  Iterable<String> get categorys => throw _privateConstructorUsedError;
+  String get slectedCategory => throw _privateConstructorUsedError;
   ListOverviewState get state => throw _privateConstructorUsedError;
+  Iterable<ListModel> get visibleLists => throw _privateConstructorUsedError;
   Iterable<ListModel> get lists => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +33,12 @@ abstract class $ListOverviewBlocStateCopyWith<$Res> {
           $Res Function(ListOverviewBlocState) then) =
       _$ListOverviewBlocStateCopyWithImpl<$Res, ListOverviewBlocState>;
   @useResult
-  $Res call({ListOverviewState state, Iterable<ListModel> lists});
+  $Res call(
+      {Iterable<String> categorys,
+      String slectedCategory,
+      ListOverviewState state,
+      Iterable<ListModel> visibleLists,
+      Iterable<ListModel> lists});
 }
 
 /// @nodoc
@@ -47,14 +55,29 @@ class _$ListOverviewBlocStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? categorys = null,
+    Object? slectedCategory = null,
     Object? state = null,
+    Object? visibleLists = null,
     Object? lists = null,
   }) {
     return _then(_value.copyWith(
+      categorys: null == categorys
+          ? _value.categorys
+          : categorys // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
+      slectedCategory: null == slectedCategory
+          ? _value.slectedCategory
+          : slectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as ListOverviewState,
+      visibleLists: null == visibleLists
+          ? _value.visibleLists
+          : visibleLists // ignore: cast_nullable_to_non_nullable
+              as Iterable<ListModel>,
       lists: null == lists
           ? _value.lists
           : lists // ignore: cast_nullable_to_non_nullable
@@ -72,7 +95,12 @@ abstract class _$$ListOverviewBlocStateImplCopyWith<$Res>
       __$$ListOverviewBlocStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ListOverviewState state, Iterable<ListModel> lists});
+  $Res call(
+      {Iterable<String> categorys,
+      String slectedCategory,
+      ListOverviewState state,
+      Iterable<ListModel> visibleLists,
+      Iterable<ListModel> lists});
 }
 
 /// @nodoc
@@ -87,14 +115,29 @@ class __$$ListOverviewBlocStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? categorys = null,
+    Object? slectedCategory = null,
     Object? state = null,
+    Object? visibleLists = null,
     Object? lists = null,
   }) {
     return _then(_$ListOverviewBlocStateImpl(
+      categorys: null == categorys
+          ? _value.categorys
+          : categorys // ignore: cast_nullable_to_non_nullable
+              as Iterable<String>,
+      slectedCategory: null == slectedCategory
+          ? _value.slectedCategory
+          : slectedCategory // ignore: cast_nullable_to_non_nullable
+              as String,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as ListOverviewState,
+      visibleLists: null == visibleLists
+          ? _value.visibleLists
+          : visibleLists // ignore: cast_nullable_to_non_nullable
+              as Iterable<ListModel>,
       lists: null == lists
           ? _value.lists
           : lists // ignore: cast_nullable_to_non_nullable
@@ -106,16 +149,27 @@ class __$$ListOverviewBlocStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
-  const _$ListOverviewBlocStateImpl({required this.state, required this.lists});
+  const _$ListOverviewBlocStateImpl(
+      {required this.categorys,
+      required this.slectedCategory,
+      required this.state,
+      required this.visibleLists,
+      required this.lists});
 
   @override
+  final Iterable<String> categorys;
+  @override
+  final String slectedCategory;
+  @override
   final ListOverviewState state;
+  @override
+  final Iterable<ListModel> visibleLists;
   @override
   final Iterable<ListModel> lists;
 
   @override
   String toString() {
-    return 'ListOverviewBlocState(state: $state, lists: $lists)';
+    return 'ListOverviewBlocState(categorys: $categorys, slectedCategory: $slectedCategory, state: $state, visibleLists: $visibleLists, lists: $lists)';
   }
 
   @override
@@ -123,13 +177,23 @@ class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ListOverviewBlocStateImpl &&
+            const DeepCollectionEquality().equals(other.categorys, categorys) &&
+            (identical(other.slectedCategory, slectedCategory) ||
+                other.slectedCategory == slectedCategory) &&
             (identical(other.state, state) || other.state == state) &&
+            const DeepCollectionEquality()
+                .equals(other.visibleLists, visibleLists) &&
             const DeepCollectionEquality().equals(other.lists, lists));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, state, const DeepCollectionEquality().hash(lists));
+      runtimeType,
+      const DeepCollectionEquality().hash(categorys),
+      slectedCategory,
+      state,
+      const DeepCollectionEquality().hash(visibleLists),
+      const DeepCollectionEquality().hash(lists));
 
   @JsonKey(ignore: true)
   @override
@@ -141,11 +205,20 @@ class _$ListOverviewBlocStateImpl implements _ListOverviewBlocState {
 
 abstract class _ListOverviewBlocState implements ListOverviewBlocState {
   const factory _ListOverviewBlocState(
-      {required final ListOverviewState state,
+      {required final Iterable<String> categorys,
+      required final String slectedCategory,
+      required final ListOverviewState state,
+      required final Iterable<ListModel> visibleLists,
       required final Iterable<ListModel> lists}) = _$ListOverviewBlocStateImpl;
 
   @override
+  Iterable<String> get categorys;
+  @override
+  String get slectedCategory;
+  @override
   ListOverviewState get state;
+  @override
+  Iterable<ListModel> get visibleLists;
   @override
   Iterable<ListModel> get lists;
   @override

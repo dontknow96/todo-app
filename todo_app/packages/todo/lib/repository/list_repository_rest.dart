@@ -20,7 +20,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<(Iterable<ListModel>, ApiResponse)> getAllLists() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.get(
       Uri.http(endpoint, ApiConstants.allLists),
@@ -50,7 +50,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> deleteList(int id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.delete(
       Uri.http(endpoint, "${ApiConstants.deleteList}$id"),
@@ -71,7 +71,12 @@ class ListRepositoryRest implements ListRepository {
   }
 
   @override
-  Future<ApiResponse> editList(int id, String title, String description) {
+  Future<ApiResponse> editList(
+    int id,
+    String title,
+    String description,
+    String category,
+  ) {
     // TODO: implement editList
     throw UnimplementedError();
   }
@@ -87,7 +92,7 @@ class ListRepositoryRest implements ListRepository {
         ApiResponse response
       )> getList(int id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.get(
       Uri.http(endpoint, "${ApiConstants.getList}$id"),
@@ -143,7 +148,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> deleteComment(int commentId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.delete(
       Uri.http(endpoint, "${ApiConstants.deleteComment}$commentId"),
@@ -166,7 +171,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> insertComment(int itemId, String text) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
       Uri.http(endpoint, ApiConstants.createComment),
@@ -197,7 +202,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> deleteItem(int itemId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.delete(
       Uri.http(endpoint, "${ApiConstants.deleteItem}$itemId"),
@@ -221,7 +226,7 @@ class ListRepositoryRest implements ListRepository {
   Future<ApiResponse> insertItem(
       int listId, String title, String description, DateTime? due) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
       Uri.http(endpoint, ApiConstants.createItem),
@@ -250,9 +255,13 @@ class ListRepositoryRest implements ListRepository {
   }
 
   @override
-  Future<ApiResponse> insertList(String title, String description) async {
+  Future<ApiResponse> insertList(
+    String title,
+    String description,
+    String category,
+  ) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
       Uri.http(endpoint, ApiConstants.createList),
@@ -267,6 +276,7 @@ class ListRepositoryRest implements ListRepository {
           ownerusername: '',
           title: title,
           description: description,
+          category: category,
         ),
       ),
     );
@@ -285,7 +295,7 @@ class ListRepositoryRest implements ListRepository {
   Future<ApiResponse> editItem(int itemid, String title, String description,
       DateTime? due, DateTime? done) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
       Uri.http(endpoint, '${ApiConstants.editItem}$itemid'),
@@ -318,7 +328,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> deletePermission(int listId, String username) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.delete(
       Uri.http(endpoint, ApiConstants.deletePermission),
@@ -348,7 +358,7 @@ class ListRepositoryRest implements ListRepository {
   @override
   Future<ApiResponse> insertPermission(int listId, String username) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString( StorageConstants.jwtStorageKey) ?? "";
+    final token = prefs.getString(StorageConstants.jwtStorageKey) ?? "";
 
     final response = await http.post(
       Uri.http(endpoint, ApiConstants.createPermission),

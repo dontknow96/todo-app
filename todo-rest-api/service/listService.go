@@ -13,6 +13,7 @@ type listParameter struct {
 	ListId      int    `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	Category    string `json:"category"`
 }
 
 // list
@@ -83,7 +84,7 @@ func InsertList(context fiber.Ctx) error {
 	}
 
 	//insert data
-	id, err := datasource.TodoDataSourceProvider.InsertList(authUser.Id, params.Title, params.Description)
+	id, err := datasource.TodoDataSourceProvider.InsertList(authUser.Id, params.Title, params.Description, params.Category)
 	if err != nil {
 		return context.SendStatus(http.StatusBadRequest)
 	}
@@ -148,7 +149,7 @@ func EditList(context fiber.Ctx) error {
 	}
 
 	//edit data
-	_, err = datasource.TodoDataSourceProvider.EditList(params.ListId, authUser.Id, params.Title, params.Description)
+	_, err = datasource.TodoDataSourceProvider.EditList(params.ListId, authUser.Id, params.Title, params.Description, params.Category)
 	if err != nil {
 		return context.SendStatus(http.StatusBadRequest)
 	}

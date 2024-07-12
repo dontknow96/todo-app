@@ -34,7 +34,8 @@ class TodoListView extends StatelessWidget {
                 ownerid: -1,
                 ownerusername: "",
                 title: "",
-                description: ""),
+                description: "",
+                category: ''),
             items: {},
             permissions: {},
           ),
@@ -81,8 +82,8 @@ class TodoListView extends StatelessWidget {
                         : null,
                     iconData: isOwner ? Icons.delete_forever : null,
                     additionalContent: [
-                      if(isOwner)
-                      PermissionsElement(
+                      if (isOwner)
+                        PermissionsElement(
                           listId: listId,
                           permissions: state.permissions.values,
                         )

@@ -25,6 +25,7 @@ mixin _$ListModel {
   String get ownerusername => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $ListModelCopyWith<$Res> {
       int ownerid,
       String ownerusername,
       String title,
-      String description});
+      String description,
+      String category});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$ListModelCopyWithImpl<$Res, $Val extends ListModel>
     Object? ownerusername = null,
     Object? title = null,
     Object? description = null,
+    Object? category = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -85,6 +88,10 @@ class _$ListModelCopyWithImpl<$Res, $Val extends ListModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$ListModelImplCopyWith<$Res>
       int ownerid,
       String ownerusername,
       String title,
-      String description});
+      String description,
+      String category});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$ListModelImplCopyWithImpl<$Res>
     Object? ownerusername = null,
     Object? title = null,
     Object? description = null,
+    Object? category = null,
   }) {
     return _then(_$ListModelImpl(
       id: null == id
@@ -143,6 +152,10 @@ class __$$ListModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -155,7 +168,8 @@ class _$ListModelImpl implements _ListModel {
       required this.ownerid,
       required this.ownerusername,
       required this.title,
-      required this.description});
+      required this.description,
+      required this.category});
 
   factory _$ListModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ListModelImplFromJson(json);
@@ -170,10 +184,12 @@ class _$ListModelImpl implements _ListModel {
   final String title;
   @override
   final String description;
+  @override
+  final String category;
 
   @override
   String toString() {
-    return 'ListModel(id: $id, ownerid: $ownerid, ownerusername: $ownerusername, title: $title, description: $description)';
+    return 'ListModel(id: $id, ownerid: $ownerid, ownerusername: $ownerusername, title: $title, description: $description, category: $category)';
   }
 
   @override
@@ -187,13 +203,15 @@ class _$ListModelImpl implements _ListModel {
                 other.ownerusername == ownerusername) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, ownerid, ownerusername, title, description);
+  int get hashCode => Object.hash(
+      runtimeType, id, ownerid, ownerusername, title, description, category);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +233,8 @@ abstract class _ListModel implements ListModel {
       required final int ownerid,
       required final String ownerusername,
       required final String title,
-      required final String description}) = _$ListModelImpl;
+      required final String description,
+      required final String category}) = _$ListModelImpl;
 
   factory _ListModel.fromJson(Map<String, dynamic> json) =
       _$ListModelImpl.fromJson;
@@ -230,6 +249,8 @@ abstract class _ListModel implements ListModel {
   String get title;
   @override
   String get description;
+  @override
+  String get category;
   @override
   @JsonKey(ignore: true)
   _$$ListModelImplCopyWith<_$ListModelImpl> get copyWith =>
