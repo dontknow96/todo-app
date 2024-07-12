@@ -44,7 +44,7 @@ services:
       - DbConnMaxLifetime=60
       - DbMaxOpenConnections=10
       - DbMaxIdleConnections=10
-  todo-rest-frontend:
+  todo-frontend:
     ports:
       - "1337:80"
     build:
